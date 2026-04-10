@@ -75,13 +75,18 @@ class UnidadeCurricular(models.Model):
     semestre = models.IntegerField()
     creditosUC = models.IntegerField()
     descricaoUC = models.TextField()
+    objetivos = models.TextField(null=True, blank=True)
+    programa = models.TextField(null=True, blank=True)
+    metodologia = models.TextField(null=True, blank=True)
+    bibliografia = models.TextField(null=True, blank=True)
+    metodos_avaliacao = models.TextField(null=True, blank=True)
     imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
     linkUC = models.URLField(blank=True, null=True)
-    curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='ucs')
-    tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
+    curso = models.ForeignKey('Licenciatura', on_delete=models.CASCADE, related_name='unidades_curriculares')
+    tecnologias = models.ManyToManyField('Tecnologia', related_name='ucs_onde_usada', blank=True)
 
     def __str__(self):
-        return self.nomeUC
+        return f"{self.idUC} - {self.nomeUC}"
 
 
 class TFC(models.Model):

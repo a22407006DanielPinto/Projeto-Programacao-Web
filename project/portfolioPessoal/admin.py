@@ -43,10 +43,22 @@ class InteresseAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('idUC', 'nomeUC', 'curso', 'ano', 'semestre')
+    list_display = ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC')
     list_filter = ('curso', 'ano', 'semestre')
     search_fields = ('idUC', 'nomeUC')
     filter_horizontal = ('tecnologias',)
+    fieldsets = (
+        ('Informação Geral', {
+            'fields': ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC', 'descricaoUC')
+        }),
+        ('Detalhes Académicos (API)', {
+            'fields': ('objetivos', 'programa', 'metodologia', 'bibliografia', 'metodos_avaliacao'),
+            'classes': ('collapse',),
+        }),
+        ('Media e Links', {
+            'fields': ('imagem', 'linkUC', 'tecnologias')
+        }),
+    )
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
