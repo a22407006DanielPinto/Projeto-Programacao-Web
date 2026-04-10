@@ -14,7 +14,8 @@ class CompetenciaAdmin(admin.ModelAdmin):
 
 @admin.register(Docente)
 class DocenteAdmin(admin.ModelAdmin):
-    list_display = ('nomeDocente', 'email')
+    list_display = ('idDocente', 'nomeDocente', 'email')
+    search_fields = ('idDocente', 'nomeDocente', 'email')
     filter_horizontal = ('ucs_lecionadas',)
 
 @admin.register(Tecnologia)

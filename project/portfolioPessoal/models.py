@@ -16,7 +16,7 @@ class Competencia(models.Model):
 
 
 class Docente(models.Model):
-    idDocente = models.IntegerField(primary_key=True) 
+    idDocente = models.CharField(max_length=50, primary_key=True)
     nomeDocente = models.CharField(max_length=150)
     linkPerfilUniversidade = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
