@@ -20,7 +20,6 @@ class Docente(models.Model):
     nomeDocente = models.CharField(max_length=150)
     linkPerfilUniversidade = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    tfcs_orientados = models.ManyToManyField('TFC', related_name='orientadores', blank=True)
     ucs_lecionadas = models.ManyToManyField('UnidadeCurricular', related_name='equipa_docente', blank=True)
 
     def __str__(self):
@@ -96,8 +95,12 @@ class TFC(models.Model):
     anoRealizacao = models.IntegerField()
     classificacaoTFC = models.IntegerField()
     linkTFC = models.URLField(blank=True, null=True)
+    orientadores = models.ManyToManyField(Docente, related_name='tfcs_orientados', blank=True)
     curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='tfcs')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='tfcs_onde_usada', blank=True)
+
+    def __str__(self):
+        return self.tituloTFC
 
     def __str__(self):
         return self.tituloTFC

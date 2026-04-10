@@ -16,7 +16,7 @@ class CompetenciaAdmin(admin.ModelAdmin):
 class DocenteAdmin(admin.ModelAdmin):
     list_display = ('nomeDocente', 'email', 'linkPerfilUniversidade')
     search_fields = ('nomeDocente', 'email')
-    filter_horizontal = ('tfcs_orientados', 'ucs_lecionadas')
+    filter_horizontal = ('ucs_lecionadas',)
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
@@ -62,10 +62,8 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
-    list_display = ('tituloTFC', 'curso', 'anoRealizacao', 'classificacaoTFC')
-    list_filter = ('curso', 'anoRealizacao')
-    search_fields = ('tituloTFC', 'autores')
-    filter_horizontal = ('tecnologias',)
+    list_display = ('tituloTFC', 'curso', 'anoRealizacao')
+    filter_horizontal = ('tecnologias', 'orientadores')
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
