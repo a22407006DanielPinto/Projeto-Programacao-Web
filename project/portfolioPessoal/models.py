@@ -16,14 +16,14 @@ class Competencia(models.Model):
 
 
 class Docente(models.Model):
-    idDocente = models.AutoField(primary_key=True)
+    idDocente = models.IntegerField(primary_key=True) 
     nomeDocente = models.CharField(max_length=150)
     linkPerfilUniversidade = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     ucs_lecionadas = models.ManyToManyField('UnidadeCurricular', related_name='equipa_docente', blank=True)
 
     def __str__(self):
-        return self.nomeDocente
+        return f"{self.idDocente} - {self.nomeDocente}"
 
 class Tecnologia(models.Model):
     nomeTecnologia = models.CharField(max_length=100, primary_key=True)
@@ -73,7 +73,7 @@ class UnidadeCurricular(models.Model):
     ano = models.IntegerField()
     semestre = models.IntegerField()
     creditosUC = models.IntegerField()
-    descricaoUC = models.TextField()
+    descricaoUC = models.TextField(null=True, blank=True)
     objetivos = models.TextField(null=True, blank=True)
     programa = models.TextField(null=True, blank=True)
     metodologia = models.TextField(null=True, blank=True)
@@ -102,9 +102,6 @@ class TFC(models.Model):
     def __str__(self):
         return self.tituloTFC
 
-    def __str__(self):
-        return self.tituloTFC
-
 
 class Projeto(models.Model):
     nomeProjeto = models.CharField(max_length=150)
@@ -112,7 +109,7 @@ class Projeto(models.Model):
     anoRealizacao = models.IntegerField()
     linkGitHub = models.URLField(blank=True, null=True)
     fotoProjeto = models.ImageField(upload_to='projetos/', blank=True, null=True)
-    linksVideo = models.URLField(blank=True, null=True) # Nome corrigido conforme fotos
+    linksVideo = models.URLField(blank=True, null=True)
     uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE, related_name='projetos')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos_onde_usada', blank=True)
 
