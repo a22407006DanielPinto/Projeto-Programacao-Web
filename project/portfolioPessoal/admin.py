@@ -28,7 +28,7 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 
     def exibir_imagem(self, obj):
         if obj.imagem:
-            return format_html('<img src="{}" style="height: 45px; width: auto; border-radius: 4px;" />', obj.imagem.url)
+            return format_html('<img src="{}" style="height: 35px; width: auto; border-radius: 4px;" />', obj.imagem.url)
         return "Sem imagem"
     exibir_imagem.short_description = 'Imagem'
 
@@ -81,7 +81,7 @@ class ProjetoAdmin(admin.ModelAdmin):
     def exibir_foto(self, obj):
         if obj.fotoProjeto:
             return format_html(
-                '<img src="{}" style="height: 50px; width: auto; border-radius: 4px;" />', 
+                '<img src="{}" style="height: 35px; width: auto; border-radius: 4px;" />', 
                 obj.fotoProjeto.url
             )
         return "Sem imagem"
