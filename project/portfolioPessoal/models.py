@@ -5,7 +5,6 @@ class Competencia(models.Model):
     descricaoCompetencia = models.TextField()
     categoria = models.CharField(max_length=50)
     ucs = models.ManyToManyField('UnidadeCurricular', related_name='competencias_validas', blank=True)
-    projetos = models.ManyToManyField('Projeto', related_name='competencias_validas', blank=True)
     tfcs = models.ManyToManyField('TFC', related_name='competencias_validas', blank=True)
     formacoes = models.ManyToManyField('Formacao', related_name='competencias_validas', blank=True)
     interesses = models.ManyToManyField('Interesse', related_name='competencias_validas', blank=True)
@@ -14,6 +13,8 @@ class Competencia(models.Model):
     def __str__(self):
         return self.nomeCompetencia
 
+    def __str__(self):
+        return self.nomeCompetencia
 
 class Docente(models.Model):
     idDocente = models.CharField(max_length=50, primary_key=True)
@@ -36,7 +37,6 @@ class Tecnologia(models.Model):
     def __str__(self):
         return self.nomeTecnologia
 
-
 class Licenciatura(models.Model):
     nomeCurso = models.CharField(max_length=200, primary_key=True)
     descricaoCurso = models.TextField()
@@ -48,24 +48,6 @@ class Licenciatura(models.Model):
 
     def __str__(self):
         return self.nomeCurso
-
-
-class Formacao(models.Model):
-    nomeFormacao = models.CharField(max_length=150)
-    instituicao = models.CharField(max_length=150)
-    duracaoFormacao = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.nomeFormacao
-
-
-class Interesse(models.Model):
-    nomeInteresse = models.CharField(max_length=100, primary_key=True)
-    descricaoInteresse = models.TextField()
-    categoriaInteresse = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.nomeInteresse
 
 class UnidadeCurricular(models.Model):
     idUC = models.CharField(max_length=20, primary_key=True)
@@ -81,12 +63,11 @@ class UnidadeCurricular(models.Model):
     metodos_avaliacao = models.TextField(null=True, blank=True)
     imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
     linkUC = models.URLField(blank=True, null=True)
-    curso = models.ForeignKey('Licenciatura', on_delete=models.CASCADE, related_name='unidades_curriculares')
-    tecnologias = models.ManyToManyField('Tecnologia', related_name='ucs_onde_usada', blank=True)
+    curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='unidades_curriculares')
+    tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
 
     def __str__(self):
         return f"{self.idUC} - {self.nomeUC}"
-
 
 class TFC(models.Model):
     tituloTFC = models.CharField(max_length=200)
@@ -102,7 +83,6 @@ class TFC(models.Model):
     def __str__(self):
         return self.tituloTFC
 
-
 class Projeto(models.Model):
     nomeProjeto = models.CharField(max_length=150)
     descricaoProjeto = models.TextField()
@@ -112,9 +92,29 @@ class Projeto(models.Model):
     linksVideo = models.URLField(blank=True, null=True)
     uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE, related_name='projetos')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos_onde_usada', blank=True)
+    competencias = models.ManyToManyField(Competencia, related_name='projetos_associados', blank=True)
 
     def __str__(self):
         return self.nomeProjeto
+
+    def __str__(self):
+        return self.nomeProjeto
+
+class Formacao(models.Model):
+    nomeFormacao = models.CharField(max_length=150)
+    instituicao = models.CharField(max_length=150)
+    duracaoFormacao = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nomeFormacao
+
+class Interesse(models.Model):
+    nomeInteresse = models.CharField(max_length=100, primary_key=True)
+    descricaoInteresse = models.TextField()
+    categoriaInteresse = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nomeInteresse
 
 class MakingOf(models.Model):
     etapas = models.CharField(max_length=100)

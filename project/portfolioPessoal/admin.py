@@ -5,41 +5,18 @@ from .models import (
     Projeto, MakingOf
 )
 
-@admin.register(Competencia)
-class CompetenciaAdmin(admin.ModelAdmin):
-    list_display = ('nomeCompetencia', 'categoria')
-    list_filter = ('categoria',)
-    search_fields = ('nomeCompetencia', 'descricaoCompetencia')
-    filter_horizontal = ('ucs', 'projetos', 'tfcs', 'formacoes', 'interesses', 'tecnologias')
-
 @admin.register(Docente)
 class DocenteAdmin(admin.ModelAdmin):
     list_display = ('idDocente', 'nomeDocente', 'email')
     search_fields = ('idDocente', 'nomeDocente', 'email')
     filter_horizontal = ('ucs_lecionadas',)
 
-@admin.register(Tecnologia)
-class TecnologiaAdmin(admin.ModelAdmin):
-    list_display = ('nomeTecnologia', 'tipoTecnologia', 'classificacao')
-    list_filter = ('tipoTecnologia', 'classificacao')
-    search_fields = ('nomeTecnologia',)
-
-@admin.register(Licenciatura)
-class LicenciaturaAdmin(admin.ModelAdmin):
-    list_display = ('nomeCurso', 'faculdade', 'duracao', 'formato')
-    list_filter = ('faculdade', 'formato')
-    search_fields = ('nomeCurso',)
-
-@admin.register(Formacao)
-class FormacaoAdmin(admin.ModelAdmin):
-    list_display = ('nomeFormacao', 'instituicao', 'duracaoFormacao')
-    search_fields = ('nomeFormacao', 'instituicao')
-
-@admin.register(Interesse)
-class InteresseAdmin(admin.ModelAdmin):
-    list_display = ('nomeInteresse', 'categoriaInteresse')
-    list_filter = ('categoriaInteresse',)
-    search_fields = ('nomeInteresse',)
+@admin.register(TFC)
+class TFCAdmin(admin.ModelAdmin):
+    list_display = ('tituloTFC', 'curso', 'anoRealizacao')
+    list_filter = ('curso', 'anoRealizacao')
+    search_fields = ('tituloTFC', 'autores')
+    filter_horizontal = ('tecnologias', 'orientadores')
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
@@ -60,20 +37,39 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
         }),
     )
 
-@admin.register(TFC)
-class TFCAdmin(admin.ModelAdmin):
-    list_display = ('tituloTFC', 'curso', 'anoRealizacao')
-    filter_horizontal = ('tecnologias', 'orientadores')
+@admin.register(Competencia)
+class CompetenciaAdmin(admin.ModelAdmin):
+    list_display = ('nomeCompetencia', 'categoria')
+    list_filter = ('categoria',)
+    search_fields = ('nomeCompetencia', 'descricaoCompetencia')
+    filter_horizontal = ('ucs', 'tfcs', 'formacoes', 'interesses', 'tecnologias')
+
+@admin.register(Tecnologia)
+class TecnologiaAdmin(admin.ModelAdmin):
+    list_display = ('nomeTecnologia', 'tipoTecnologia', 'classificacao')
+    list_filter = ('tipoTecnologia', 'classificacao')
+    search_fields = ('nomeTecnologia',)
+
+@admin.register(Licenciatura)
+class LicenciaturaAdmin(admin.ModelAdmin):
+    list_display = ('nomeCurso', 'faculdade')
+    search_fields = ('nomeCurso',)
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
     list_display = ('nomeProjeto', 'uc', 'anoRealizacao')
     list_filter = ('anoRealizacao', 'uc')
     search_fields = ('nomeProjeto', 'descricaoProjeto')
-    filter_horizontal = ('tecnologias',)
+    filter_horizontal = ('tecnologias', 'competencias')
+
+@admin.register(Formacao)
+class FormacaoAdmin(admin.ModelAdmin):
+    list_display = ('nomeFormacao', 'instituicao')
+
+@admin.register(Interesse)
+class InteresseAdmin(admin.ModelAdmin):
+    list_display = ('nomeInteresse', 'categoriaInteresse')
 
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
-    list_display = ('projeto', 'etapas', 'usoIA')
-    list_filter = ('projeto',)
-    search_fields = ('etapas', 'descricaoDecisoes', 'errosEncontrados')
+    list_display = ('projeto', 'etapas')
