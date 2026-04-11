@@ -21,14 +21,19 @@ class TFCAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC')
-    list_filter = ('curso', 'ano', 'semestre')
+    # Usamos 'get_cursos' em vez de 'curso'
+    list_display = ('idUC', 'nomeUC', 'get_cursos', 'ano', 'semestre', 'creditosUC')
+    list_filter = ('cursos', 'ano', 'semestre')
     search_fields = ('idUC', 'nomeUC')
-    filter_horizontal = ('tecnologias', 'competencias')
+    filter_horizontal = ('cursos', 'tecnologias', 'competencias')
+
+    def get_cursos(self, obj):
+        return ", ".join([c.nomeCurso for c in obj.cursos.all()])
+    get_cursos.short_description = 'Cursos'
     
     fieldsets = (
         ('Informação Geral', {
-            'fields': ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC', 'descricaoUC')
+            'fields': ('idUC', 'nomeUC', 'cursos', 'ano', 'semestre', 'creditosUC', 'descricaoUC')
         }),
         ('Detalhes Académicos (API)', {
             'fields': ('objetivos', 'programa', 'metodologia', 'bibliografia', 'metodos_avaliacao'),

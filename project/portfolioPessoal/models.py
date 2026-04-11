@@ -75,7 +75,7 @@ class UnidadeCurricular(models.Model):
     metodos_avaliacao = models.TextField(null=True, blank=True)
     imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
     linkUC = models.URLField(blank=True, null=True)
-    curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='unidades_curriculares')
+    cursos = models.ManyToManyField(Licenciatura, related_name='unidades_curriculares', blank=True )
     tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
     competencias = models.ManyToManyField(Competencia, related_name='ucs_associadas', blank=True)
 
