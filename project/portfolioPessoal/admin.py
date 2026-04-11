@@ -21,10 +21,16 @@ class TFCAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ('idUC', 'nomeUC', 'get_cursos', 'ano', 'semestre', 'creditosUC')
+    list_display = ('exibir_imagem', 'idUC', 'nomeUC', 'get_cursos', 'ano', 'semestre', 'creditosUC')
     list_filter = ('cursos', 'ano', 'semestre')
     search_fields = ('idUC', 'nomeUC')
     filter_horizontal = ('cursos', 'tecnologias', 'competencias')
+
+    def exibir_imagem(self, obj):
+        if obj.imagem:
+            return format_html('<img src="{}" style="height: 45px; width: auto; border-radius: 4px;" />', obj.imagem.url)
+        return "Sem imagem"
+    exibir_imagem.short_description = 'Imagem'
 
     def get_cursos(self, obj):
         return ", ".join([c.nomeCurso for c in obj.cursos.all()])
