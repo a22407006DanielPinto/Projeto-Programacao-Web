@@ -21,7 +21,6 @@ class TFCAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    # Usamos 'get_cursos' em vez de 'curso'
     list_display = ('idUC', 'nomeUC', 'get_cursos', 'ano', 'semestre', 'creditosUC')
     list_filter = ('cursos', 'ano', 'semestre')
     search_fields = ('idUC', 'nomeUC')
@@ -91,10 +90,10 @@ class MakingOfAdmin(admin.ModelAdmin):
         'projeto', 
         'etapas', 
         'registos', 
-        'descricaoDecisoes', 
-        'justificacaoDecisoes', 
+        'descricaoDecisoes',  
         'errosEncontrados', 
         'solucao', 
+        'justificacaoDecisoes',
         'usoIA'
     )
     
