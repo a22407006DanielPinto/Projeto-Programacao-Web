@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import (
     Competencia, Tecnologia, Docente, Licenciatura, 
     Formacao, Interesse, UnidadeCurricular, TFC, 
@@ -58,17 +59,10 @@ class LicenciaturaAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ('exibir_foto', 'nomeProjeto', 'uc', 'anoRealizacao')
+    list_display = ('nomeProjeto', 'uc', 'anoRealizacao')
+    list_filter = ('anoRealizacao', 'uc')
+    search_fields = ('nomeProjeto', 'descricaoProjeto')
     filter_horizontal = ('tecnologias', 'competencias')
-    def exibir_foto(self, obj):
-        if obj.fotoProjeto:
-            return format_html(
-                '<img src="{}" style="height: 50px; width: auto; border-radius: 4px; border: 1px solid #ddd;" />', 
-                obj.fotoProjeto.url
-            )
-        return "Sem imagem"
-
-    exibir_foto.short_description = 'Capa'
 
 @admin.register(Formacao)
 class FormacaoAdmin(admin.ModelAdmin):
