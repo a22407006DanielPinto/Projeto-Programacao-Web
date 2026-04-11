@@ -23,7 +23,8 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
     list_display = ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC')
     list_filter = ('curso', 'ano', 'semestre')
     search_fields = ('idUC', 'nomeUC')
-    filter_horizontal = ('tecnologias',)
+    filter_horizontal = ('tecnologias', 'competencias')
+    
     fieldsets = (
         ('Informação Geral', {
             'fields': ('idUC', 'nomeUC', 'curso', 'ano', 'semestre', 'creditosUC', 'descricaoUC')
@@ -32,8 +33,8 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
             'fields': ('objetivos', 'programa', 'metodologia', 'bibliografia', 'metodos_avaliacao'),
             'classes': ('collapse',),
         }),
-        ('Media e Links', {
-            'fields': ('imagem', 'linkUC', 'tecnologias')
+        ('Media, Tecnologias e Competências', {
+            'fields': ('imagem', 'linkUC', 'tecnologias', 'competencias')
         }),
     )
 
@@ -41,8 +42,8 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 class CompetenciaAdmin(admin.ModelAdmin):
     list_display = ('nomeCompetencia', 'categoria')
     list_filter = ('categoria',)
-    search_fields = ('nomeCompetencia', 'descricaoCompetencia')
-    filter_horizontal = ('ucs', 'tfcs', 'formacoes', 'interesses', 'tecnologias')
+    search_fields = ('nomeCompetencia',)
+    filter_horizontal = ('tfcs', 'formacoes', 'interesses', 'tecnologias')
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):

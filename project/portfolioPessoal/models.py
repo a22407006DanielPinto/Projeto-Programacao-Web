@@ -4,11 +4,13 @@ class Competencia(models.Model):
     nomeCompetencia = models.CharField(max_length=100)
     descricaoCompetencia = models.TextField()
     categoria = models.CharField(max_length=50)
-    ucs = models.ManyToManyField('UnidadeCurricular', related_name='competencias_validas', blank=True)
     tfcs = models.ManyToManyField('TFC', related_name='competencias_validas', blank=True)
     formacoes = models.ManyToManyField('Formacao', related_name='competencias_validas', blank=True)
     interesses = models.ManyToManyField('Interesse', related_name='competencias_validas', blank=True)
     tecnologias = models.ManyToManyField('Tecnologia', related_name='competencias_validas', blank=True)
+
+    def __str__(self):
+        return self.nomeCompetencia
 
     def __str__(self):
         return self.nomeCompetencia
@@ -65,6 +67,7 @@ class UnidadeCurricular(models.Model):
     linkUC = models.URLField(blank=True, null=True)
     curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='unidades_curriculares')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
+    competencias = models.ManyToManyField(Competencia, related_name='ucs_associadas', blank=True)
 
     def __str__(self):
         return f"{self.idUC} - {self.nomeUC}"
