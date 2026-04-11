@@ -148,7 +148,7 @@ class Interesse(models.Model):
 
 class MakingOf(models.Model):
     etapas = models.CharField(max_length=100)
-    registos = models.ImageField(upload_to='makingof/', blank=True, null=True)
+    registos = models.FileField(upload_to='makingof/', blank=True, null=True)
     descricaoDecisoes = models.TextField()
     justificacaoDecisoes = models.TextField()
     errosEncontrados = models.TextField()
