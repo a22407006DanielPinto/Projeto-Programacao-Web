@@ -110,7 +110,7 @@ class Projeto(models.Model):
     anoRealizacao = models.IntegerField()
     linkGitHub = models.URLField(blank=True, null=True)
     fotoProjeto = models.ImageField(upload_to='projetos/', blank=True, null=True)
-    linksVideo = models.URLField(blank=True, null=True)
+    videoProjeto = models.FileField(upload_to='projetos/videos/', blank=True, null=True)
     uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE, related_name='projetos')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos_onde_usada', blank=True)
     competencias = models.ManyToManyField(Competencia, related_name='projetos_associados', blank=True)
