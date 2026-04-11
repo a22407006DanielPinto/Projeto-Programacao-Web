@@ -9,11 +9,9 @@ class Competencia(models.Model):
     interesses = models.ManyToManyField('Interesse', related_name='competencias_validas', blank=True)
     tecnologias = models.ManyToManyField('Tecnologia', related_name='competencias_validas', blank=True)
 
-    def __str__(self):
-        return self.nomeCompetencia
-
-    def __str__(self):
-        return self.nomeCompetencia
+    class Meta:
+        verbose_name = "Competência"
+        verbose_name_plural = "Competências"
 
     def __str__(self):
         return self.nomeCompetencia
@@ -24,6 +22,10 @@ class Docente(models.Model):
     linkPerfilUniversidade = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     ucs_lecionadas = models.ManyToManyField('UnidadeCurricular', related_name='equipa_docente', blank=True)
+
+    class Meta:
+        verbose_name = "Docente"
+        verbose_name_plural = "Docentes"
 
     def __str__(self):
         return f"{self.idDocente} - {self.nomeDocente}"
@@ -36,6 +38,10 @@ class Tecnologia(models.Model):
     tipoTecnologia = models.CharField(max_length=50)
     classificacao = models.IntegerField()
 
+    class Meta:
+        verbose_name = "Tecnologia"
+        verbose_name_plural = "Tecnologias"
+
     def __str__(self):
         return self.nomeTecnologia
 
@@ -47,6 +53,10 @@ class Licenciatura(models.Model):
     formato = models.CharField(max_length=50)
     website = models.URLField(blank=True, null=True)
     faculdade = models.CharField(max_length=150)
+
+    class Meta:
+        verbose_name = "Licenciatura"
+        verbose_name_plural = "Licenciaturas"
 
     def __str__(self):
         return self.nomeCurso
@@ -69,6 +79,10 @@ class UnidadeCurricular(models.Model):
     tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
     competencias = models.ManyToManyField(Competencia, related_name='ucs_associadas', blank=True)
 
+    class Meta:
+        verbose_name = "Unidade Curricular"
+        verbose_name_plural = "Unidades Curriculares"
+
     def __str__(self):
         return f"{self.idUC} - {self.nomeUC}"
 
@@ -82,6 +96,10 @@ class TFC(models.Model):
     orientadores = models.ManyToManyField(Docente, related_name='tfcs_orientados', blank=True)
     curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='tfcs')
     tecnologias = models.ManyToManyField(Tecnologia, related_name='tfcs_onde_usada', blank=True)
+
+    class Meta:
+        verbose_name = "TFC"
+        verbose_name_plural = "TFCs"
 
     def __str__(self):
         return self.tituloTFC
@@ -97,8 +115,9 @@ class Projeto(models.Model):
     tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos_onde_usada', blank=True)
     competencias = models.ManyToManyField(Competencia, related_name='projetos_associados', blank=True)
 
-    def __str__(self):
-        return self.nomeProjeto
+    class Meta:
+        verbose_name = "Projeto"
+        verbose_name_plural = "Projetos"
 
     def __str__(self):
         return self.nomeProjeto
@@ -108,6 +127,10 @@ class Formacao(models.Model):
     instituicao = models.CharField(max_length=150)
     duracaoFormacao = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name = "Formação"
+        verbose_name_plural = "Formações"
+
     def __str__(self):
         return self.nomeFormacao
 
@@ -115,6 +138,10 @@ class Interesse(models.Model):
     nomeInteresse = models.CharField(max_length=100, primary_key=True)
     descricaoInteresse = models.TextField()
     categoriaInteresse = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Interesse"
+        verbose_name_plural = "Interesses"
 
     def __str__(self):
         return self.nomeInteresse
@@ -128,6 +155,10 @@ class MakingOf(models.Model):
     solucao = models.TextField()
     usoIA = models.TextField()
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE, related_name='makingof_logs')
+
+    class Meta:
+        verbose_name = "Making Of"
+        verbose_name_plural = "Making Ofs"
 
     def __str__(self):
         return f"MakingOf - {self.projeto.nomeProjeto} ({self.etapas})"
