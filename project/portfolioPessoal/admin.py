@@ -82,4 +82,16 @@ class InteresseAdmin(admin.ModelAdmin):
 
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
+    fields = (
+        'projeto', 
+        'etapas', 
+        'registos', 
+        'descricaoDecisoes', 
+        'justificacaoDecisoes', 
+        'errosEncontrados', 
+        'solucao', 
+        'usoIA'
+    )
+    
     list_display = ('projeto', 'etapas')
+    list_filter = ('projeto',)
