@@ -60,10 +60,8 @@ class LicenciaturaAdmin(admin.ModelAdmin):
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
     list_display = ('exibir_foto', 'nomeProjeto', 'uc', 'anoRealizacao')
-    
-    list_filter = ('anoRealizacao', 'uc')
-    search_fields = ('nomeProjeto', 'descricaoProjeto')
     filter_horizontal = ('tecnologias', 'competencias')
+
     def exibir_foto(self, obj):
         if obj.fotoProjeto:
             return format_html(
