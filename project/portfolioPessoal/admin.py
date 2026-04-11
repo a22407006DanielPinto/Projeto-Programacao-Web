@@ -58,9 +58,15 @@ class CompetenciaAdmin(admin.ModelAdmin):
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
-    list_display = ('nomeTecnologia', 'tipoTecnologia', 'classificacao')
+    list_display = ('exibir_logotipo', 'nomeTecnologia', 'tipoTecnologia', 'classificacao')
     list_filter = ('tipoTecnologia', 'classificacao')
     search_fields = ('nomeTecnologia',)
+
+    def exibir_logotipo(self, obj):
+        if obj.logotipo:
+            return format_html('<img src="{}" style="height: 35px; width: auto; border-radius: 4px;" />', obj.logotipo.url)
+        return "Sem logo"
+    exibir_logotipo.short_description = 'Logo'
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
