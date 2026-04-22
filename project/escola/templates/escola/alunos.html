@@ -1,0 +1,31 @@
+{% extends "escola/base.html" %}
+
+{% block content %}
+<h2>Alunos</h2>
+
+<section>
+    {% for aluno in alunos %}
+    <article>
+        <header>
+            <h3>{{ aluno.nome }}</h3>
+            <p>Nº de Aluno: {{ aluno.numero }}</p>
+        </header>
+
+        <section>
+            <h4>CURSOS</h4>
+            <ul>
+                {% for curso in aluno.cursos.all %}
+                    <li>
+                        <a href="{% url 'curso' curso.id %}" style="color: white; text-decoration: none;">
+                            {{ curso.nome }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li style="background: #9ca3af;">Não inscrito em cursos</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}
