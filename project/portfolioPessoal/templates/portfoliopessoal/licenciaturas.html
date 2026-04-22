@@ -1,0 +1,16 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>📜 Licenciaturas</h2>
+<section>
+    {% for l in licenciaturas %}
+    <article>
+        <h3>{{ l.nomeCurso }}</h3>
+        <p><strong>Faculdade:</strong> {{ l.faculdade }}</p>
+        <p><strong>Duração:</strong> {{ l.duracao }} ({{ l.creditosCurso }} ECTS)</p>
+        <p>{{ l.descricaoCurso }}</p>
+        <a href="{{ l.website }}" target="_blank">Site do Curso</a>
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

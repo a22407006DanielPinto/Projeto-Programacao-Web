@@ -1,0 +1,26 @@
+{% extends "portfoliopessoal/base.html" %}
+
+{% block content %}
+<h2>O Meu Portfolio Pessoal</h2>
+
+<section>
+    <article>
+        <h3>Secções Disponíveis</h3>
+        <p>Explora as diferentes áreas do meu percurso académico e pessoal:</p>
+        
+        <ul class="portfolio-links" style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0;"><a href="{% url 'projetos' %}"> Projetos</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'tecnologias' %}"> Tecnologias</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'licenciaturas' %}"> Licenciaturas</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'ucs' %}"> Unidades Curriculares</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'tfc' %}"> TFCs (Trabalho Final)</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'docentes' %}"> Docentes</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'competencias' %}"> Competências</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'formacoes' %}"> Formações</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'interesses' %}"> Interesses</a></li>
+            <li style="margin: 10px 0;"><a href="{% url 'makingof' %}"> Making Of (Diário)</a></li>
+        </ul>
+    </article>
+</section>
+
+{% endblock %}

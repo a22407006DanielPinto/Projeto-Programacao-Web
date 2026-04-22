@@ -1,0 +1,17 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>👨‍🏫 Docentes</h2>
+<section>
+    {% for d in docentes %}
+    <article>
+        <h3>{{ d.nomeDocente }}</h3>
+        <p><strong>ID:</strong> {{ d.idDocente }}</p>
+        <p><strong>Email:</strong> {{ d.email }}</p>
+        {% if d.linkPerfilUniversidade %}
+            <a href="{{ d.linkPerfilUniversidade }}">Perfil Académico</a>
+        {% endif %}
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

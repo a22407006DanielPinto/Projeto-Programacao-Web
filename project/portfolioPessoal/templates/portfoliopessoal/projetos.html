@@ -1,0 +1,23 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>📁 Meus Projetos</h2>
+<section>
+    {% for p in projetos %}
+    <article>
+        <header>
+            <h3>{{ p.nomeProjeto }}</h3>
+            {% if p.fotoProjeto %}
+                <img src="{{ p.fotoProjeto.url }}" alt="{{ p.nomeProjeto }}" style="max-width:300px; border-radius:10px;">
+            {% endif %}
+        </header>
+        <p>{{ p.descricaoProjeto }}</p>
+        <p><strong>Ano:</strong> {{ p.anoRealizacao }}</p>
+        <div style="margin-top:10px;">
+            {% if p.linkGitHub %}<a href="{{ p.linkGitHub }}" target="_blank">GitHub</a> | {% endif %}
+            {% if p.linksVideo %}<a href="{{ p.linksVideo }}" target="_blank">Vídeo</a>{% endif %}
+        </div>
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar ao Portfolio</a>
+{% endblock %}

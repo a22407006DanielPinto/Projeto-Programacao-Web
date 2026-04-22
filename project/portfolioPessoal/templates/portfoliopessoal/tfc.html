@@ -1,0 +1,16 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>🎓 TFC</h2>
+<section>
+    {% for t in tfcs %}
+    <article>
+        <h3>{{ t.tituloTFC }}</h3>
+        <p><strong>Autores:</strong> {{ t.autores }}</p>
+        <p><strong>Ano:</strong> {{ t.anoRealizacao }} | <strong>Nota:</strong> {{ t.classificacaoTFC }}</p>
+        <p>{{ t.descricaoTFC }}</p>
+        {% if t.linkTFC %}<a href="{{ t.linkTFC }}">Documento Online</a>{% endif %}
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

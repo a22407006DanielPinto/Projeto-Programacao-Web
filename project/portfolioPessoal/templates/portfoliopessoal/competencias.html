@@ -1,0 +1,14 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>💪 Competências</h2>
+<section>
+    {% for c in competencias %}
+    <article>
+        <h3>{{ c.nomeCompetencia }}</h3>
+        <p><strong>Categoria:</strong> {{ c.categoria }}</p>
+        <p>{{ c.descricaoCompetencia }}</p>
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

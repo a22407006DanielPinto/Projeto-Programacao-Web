@@ -1,0 +1,14 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>🏗️ Formações</h2>
+<section>
+    {% for f in formacoes %}
+    <article>
+        <h3>{{ f.nomeFormacao }}</h3>
+        <p><strong>Instituição:</strong> {{ f.instituicao }}</p>
+        <p><strong>Duração:</strong> {{ f.duracaoFormacao }}</p>
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

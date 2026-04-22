@@ -1,0 +1,20 @@
+{% extends "portfoliopessoal/base.html" %}
+{% block content %}
+<h2>🛠️ Tecnologias</h2>
+<section>
+    {% for t in tecnologias %}
+    <article>
+        <header>
+            <h3>{{ t.nomeTecnologia }}</h3>
+            {% if t.logotipo %}
+                <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}" style="max-width:60px;">
+            {% endif %}
+        </header>
+        <p>{{ t.descricaoTecnologia }}</p>
+        <p><strong>Tipo:</strong> {{ t.tipoTecnologia }}</p>
+        <p><strong>Nível:</strong> {{ t.classificacao }}/10</p>
+    </article>
+    {% endfor %}
+</section>
+<a href="{% url 'portfolio' %}">← Voltar</a>
+{% endblock %}

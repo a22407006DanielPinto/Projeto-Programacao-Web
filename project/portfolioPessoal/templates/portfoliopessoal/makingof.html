@@ -1,0 +1,40 @@
+{% extends "portfoliopessoal/base.html" %}
+
+{% block content %}
+<h2>🎬 Making Of - Diário de Desenvolvimento</h2>
+
+<section>
+    {% for log in logs %}
+    <article style="border-left: 5px solid #2563eb; padding-left: 20px;">
+        <header>
+            <h3>Projeto: {{ log.projeto.nomeProjeto }}</h3>
+            <h4>Etapa: {{ log.etapas }}</h4>
+        </header>
+
+        <div style="margin: 15px 0;">
+            <p><strong>Decisões Tomadas:</strong><br>{{ log.descricaoDecisoes }}</p>
+            <p><strong>Justificação:</strong><br>{{ log.justificacaoDecisoes }}</p>
+        </div>
+
+        <div style="background: #fef2f2; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            <p style="color: #b91c1c;"><strong>⚠️ Erros Encontrados:</strong><br>{{ log.errosEncontrados }}</p>
+            <p style="color: #15803d;"><strong>✅ Solução:</strong><br>{{ log.solucao }}</p>
+        </div>
+
+        <div style="background: #eff6ff; padding: 10px; border-radius: 5px;">
+            <p><strong>🤖 Uso de IA:</strong><br>{{ log.usoIA }}</p>
+        </div>
+
+        {% if log.registos %}
+            <p style="margin-top: 10px;">
+                <a href="{{ log.registos.url }}" target="_blank">📄 Ver Ficheiro de Registo</a>
+            </p>
+        {% endif %}
+    </article>
+    {% empty %}
+    <p>Ainda não há registos de Making Of.</p>
+    {% endfor %}
+</section>
+
+<a href="{% url 'portfolio' %}">← Voltar ao Portfolio</a>
+{% endblock %}
