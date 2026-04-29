@@ -1,30 +1,27 @@
 {% extends "portfoliopessoal/base.html" %}
-
 {% block content %}
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-    <h2>🎓 Minha Formação Académica</h2>
-    <a href="{% url 'nova_formacao' %}" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-        + Adicionar Formação
-    </a>
-</div>
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar à Gestão</a>
 
-<section style="display: flex; flex-direction: column; gap: 15px;">
-    {% for f in formacoes %}
-    <article style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #1e40af;">
-        <div style="display: flex; justify-content: space-between;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+        <h2 class="hero-subtitle" style="margin: 0;">Percurso <span>Académico</span></h2>
+        <a href="{% url 'nova_formacao' %}" class="btn-hero-primary" style="padding: 12px 25px;">+ Adicionar Formação</a>
+    </div>
+
+    <section style="display: flex; flex-direction: column; gap: 20px;">
+        {% for f in formacoes %}
+        <article class="card-content" style="display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--purple);">
             <div>
-                <h3 style="margin: 0; color: #1e40af;">{{ f.curso }}</h3>
-                <p style="margin: 5px 0; font-weight: bold;">{{ f.instituicao }} | {{ f.ano_conclusao }}</p>
-                <p style="color: #4b5563;">{{ f.descricao }}</p>
+                <h3 style="margin: 0; color: #ffffff; font-size: 1.4rem;">{{ f.curso }}</h3>
+                <p style="margin: 5px 0; color: var(--accent); font-weight: 700;">{{ f.instituicao }} | {{ f.ano_conclusao }}</p>
+                <p style="color: var(--text-muted); margin-bottom: 0;">{{ f.descricao }}</p>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px; text-align: right;">
-                <a href="{% url 'editar_formacao' f.id %}" style="color: #ca8a04; text-decoration: none; font-weight: bold;">✎ Editar</a>
-                <a href="{% url 'apagar_formacao' f.id %}" style="color: #dc2626; text-decoration: none; font-weight: bold;">🗑 Apagar</a>
+            <div style="display: flex; gap: 20px;">
+                <a href="{% url 'editar_formacao' f.id %}" style="color: var(--accent); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">✎ Editar</a>
+                <a href="{% url 'apagar_formacao' f.id %}" style="color: #ef4444; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">🗑 Apagar</a>
             </div>
-        </div>
-    </article>
-    {% empty %}
-    <p>Ainda não tens formações registadas.</p>
-    {% endfor %}
-</section>
+        </article>
+        {% endfor %}
+    </section>
+</div>
 {% endblock %}

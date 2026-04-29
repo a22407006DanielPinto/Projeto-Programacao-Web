@@ -6,14 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniel Pinto | Portfolio pessoal</title>
     
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=5.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=22.0">
 
     <style>
-        /* --- BLOQUEIO DE SEGURANÇA PARA DUPLICADOS --- */
-        form ul, .checkbox-list, input[type="checkbox"], 
-        label[for*="id_tfcs"], label[for*="id_tecnologias"], 
-        label[for*="id_interesses"], label[for*="id_formacoes"], 
-        label[for*="id_competencias"] { 
+        /* Bloqueio nuclear de duplicados nativos do Django */
+        .styled-form ul, .field-container ul, input[type="checkbox"], label[for$="-clear_id"] { 
             display: none !important; 
         }
     </style>
@@ -21,12 +18,13 @@
 <body>
 
     <header>
-        <h1>Daniel Pinto <span>| Portfolio pessoal</span></h1>
+        <h1>Daniel Pinto <span>| Portfolio Pessoal</span></h1>
         <nav>
             <a href="{% url 'portfolio' %}">Início</a>
             <a href="{% url 'sobre' %}">Sobre</a>
             <a href="{% url 'competencias' %}">Competências</a>
             <a href="{% url 'projetos' %}">Projetos</a>
+            <a href="{% url 'admin_dashboard' %}" class="nav-gestao">GESTÃO</a>
         </nav>
     </header>
 
@@ -36,10 +34,54 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. FIX "VER MAIS" - ACÇÃO CIRÚRGICA
+            const expandButtons = document.querySelectorAll('.p-expand-btn');
+            expandButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.p-card');
+                    const textElement = card.querySelector('.p-text');
+                    
+                    textElement.classList.toggle('is-expanded');
+                    
+                    if (textElement.classList.contains('is-expanded')) {
+                        this.innerHTML = 'Ver menos <span>↑</span>';
+                    } else {
+                        this.innerHTML = 'Ver mais <span>↓</span>';
+                    }
+                });
+            });
+
+            // 2. REMOVER FOTO (LÓGICA DE LIMPEZA)
+            const clearCheckbox = document.querySelector('input[name$="-clear"]');
+            if (clearCheckbox) {
+                const container = clearCheckbox.closest('.field-container');
+                const currentLink = container.querySelector('a');
+                
+                if (currentLink && !container.querySelector('.photo-remove-btn')) {
+                    const removePhotoBtn = document.createElement('span');
+                    removePhotoBtn.innerHTML = 'Remover Imagem ✕';
+                    removePhotoBtn.className = 'photo-remove-btn';
+                    container.appendChild(removePhotoBtn);
+
+                    removePhotoBtn.addEventListener('click', function() {
+                        clearCheckbox.checked = true;
+                        currentLink.style.opacity = '0.3';
+                        currentLink.style.textDecoration = 'line-through';
+                        this.innerHTML = 'Marcada para remover';
+                    });
+                }
+            }
+
+            // 3. DROPDOWNS E TAGS
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const groups = {};
             
             checkboxes.forEach(cb => {
+                if (cb.name.toLowerCase().includes('foto') || cb.name.toLowerCase().includes('imagem') || cb.name.endsWith('-clear')) {
+                    return; 
+                }
                 if (!groups[cb.name]) groups[cb.name] = [];
                 groups[cb.name].push(cb);
             });
@@ -49,22 +91,19 @@
                 if (group.length > 0) {
                     const first = group[0];
                     const container = first.closest('ul') || first.closest('p') || first.parentElement;
-                    container.style.display = 'none';
-
+                    if (container) { container.style.display = 'none'; }
+                    
                     const select = document.createElement('select');
                     select.className = 'picker-dropdown';
-                    
                     let labelElem = container.previousElementSibling;
                     let labelText = (labelElem && labelElem.tagName === 'LABEL') ? labelElem.innerText : name;
-                    
                     select.innerHTML = `<option value="">+ Selecionar ${labelText.replace(':', '')}</option>`;
+                    
                     const tagsDiv = document.createElement('div');
                     tagsDiv.className = 'tags-area';
 
                     group.forEach(cb => {
-                        let text = cb.closest('li')?.innerText.trim() || 
-                                   document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || 
-                                   cb.value;
+                        let text = cb.closest('li')?.innerText.trim() || document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || cb.value;
                         const opt = document.createElement('option');
                         opt.value = cb.id;
                         opt.textContent = text;
@@ -81,9 +120,7 @@
                             tagsDiv.innerHTML = '<small style="color:#64748b">Nada selecionado.</small>';
                         }
                         checked.forEach(cb => {
-                            let text = cb.closest('li')?.innerText.trim() || 
-                                       document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || 
-                                       cb.value;
+                            let text = cb.closest('li')?.innerText.trim() || document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || cb.value;
                             const tag = document.createElement('div');
                             tag.className = 'tag-badge';
                             tag.innerHTML = `<span>${text}</span> <span class="remove-btn" data-id="${cb.id}">×</span>`;

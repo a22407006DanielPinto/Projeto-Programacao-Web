@@ -1,21 +1,27 @@
-{% extends "portfoliopessoal/base.html" %}
+{% extends 'portfoliopessoal/base.html' %}
 {% block content %}
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2>🏆 Minhas Competências</h2>
-    <a href="{% url 'nova_competencia' %}" style="background: #2563eb; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">+ Adicionar</a>
-</div>
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar à Gestão</a>
 
-<section>
-    {% for c in competencias %}
-    <article style="background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #eee;">
-        <h3>{{ c.nomeCompetencia }} <small style="color: #6b7280;">({{ c.categoria }})</small></h3>
-        <p>{{ c.descricaoCompetencia }}</p>
-        
-        <div style="margin-top: 10px;">
-            <a href="{% url 'editar_competencia' c.id %}" style="color: #ca8a04;">[Editar]</a>
-            <a href="{% url 'apagar_competencia' c.id %}" style="color: #dc2626; margin-left: 15px;">[Apagar]</a>
-        </div>
-    </article>
-    {% endfor %}
-</section>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+        <h2 class="hero-subtitle" style="margin: 0;">Minhas <span>Competências</span></h2>
+        <a href="{% url 'nova_competencia' %}" class="btn-hero-primary" style="padding: 12px 25px;">+ Adicionar</a>
+    </div>
+
+    <section class="card-grid">
+        {% for c in competencias %}
+        <article class="card-content">
+            <h3 style="color: #ffffff; margin-top: 0;">{{ c.nomeCompetencia }} 
+                <small style="color: var(--accent); font-size: 0.8rem; display: block; margin-top: 5px;">{{ c.categoria }}</small>
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">{{ c.descricaoCompetencia }}</p>
+            
+            <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; gap: 20px;">
+                <a href="{% url 'editar_competencia' c.id %}" style="color: var(--accent); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">✎ Editar</a>
+                <a href="{% url 'apagar_competencia' c.id %}" style="color: #ef4444; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">🗑 Apagar</a>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</div>
 {% endblock %}
