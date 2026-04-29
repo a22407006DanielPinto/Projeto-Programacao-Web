@@ -1,23 +1,41 @@
 {% extends "portfoliopessoal/base.html" %}
+
 {% block content %}
-<h2>📁 Meus Projetos</h2>
-<section>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>📁 Meus Projetos</h2>
+    <a href="{% url 'novo_projeto' %}" style="background: #2563eb; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+        + Adicionar Projeto
+    </a>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
     {% for p in projetos %}
-    <article>
+    <article style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #eee;">
         <header>
-            <h3>{{ p.nomeProjeto }}</h3>
+            <h3 style="margin-top: 0;">{{ p.nomeProjeto }}</h3>
             {% if p.fotoProjeto %}
-                <img src="{{ p.fotoProjeto.url }}" alt="{{ p.nomeProjeto }}" style="max-width:300px; border-radius:10px;">
+                <img src="{{ p.fotoProjeto.url }}" alt="{{ p.nomeProjeto }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 4px;">
             {% endif %}
         </header>
-        <p>{{ p.descricaoProjeto }}</p>
+        
+        <p style="font-size: 0.9rem; color: #4b5563;">{{ p.descricaoProjeto|truncatechars:100 }}</p>
         <p><strong>Ano:</strong> {{ p.anoRealizacao }}</p>
-        <div style="margin-top:10px;">
-            {% if p.linkGitHub %}<a href="{{ p.linkGitHub }}" target="_blank">GitHub</a> | {% endif %}
-            {% if p.linksVideo %}<a href="{{ p.linksVideo }}" target="_blank">Vídeo</a>{% endif %}
+
+        <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 15px;">
+            <a href="{% url 'editar_projeto' p.id %}" style="color: #ca8a04; text-decoration: none; font-weight: bold;">
+                ✎ Editar
+            </a>
+            <a href="{% url 'apagar_projeto' p.id %}" style="color: #dc2626; text-decoration: none; font-weight: bold;">
+                🗑 Apagar
+            </a>
         </div>
     </article>
+    {% empty %}
+        <p>Ainda não tens projetos registados.</p>
     {% endfor %}
 </section>
-<a href="{% url 'portfolio' %}">← Voltar ao Portfolio</a>
+
+<div style="margin-top: 30px;">
+    <a href="{% url 'portfolio' %}" style="color: #6b7280;">← Voltar ao Início</a>
+</div>
 {% endblock %}

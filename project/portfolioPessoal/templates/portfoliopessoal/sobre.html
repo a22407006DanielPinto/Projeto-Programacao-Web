@@ -1,0 +1,21 @@
+{% extends "portfoliopessoal/base.html" %}
+
+{% block content %}
+<article style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h2 style="color: #1e40af; border-bottom: 2px solid #eee; padding-bottom: 10px;">Sobre esta Aplicação</h2>
+    
+    <p>Esta aplicação foi desenvolvida por <strong>Daniel Pinto</strong> no âmbito da disciplina de Programação Web em 2026.</p>
+
+    <h3>O que é o Django MVT?</h3>
+    <p>Este projeto segue o padrão de arquitetura Model-View-Template:</p>
+    <ul>
+        <li><strong>Model:</strong> Gere os dados e a base de dados (ex: Projetos e Tecnologias).</li>
+        <li><strong>View:</strong> Contém a lógica que decide o que mostrar ao utilizador.</li>
+        <li><strong>Template:</strong> É a parte visual em HTML que o utilizador vê.</li>
+    </ul>
+
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <a href="{% url 'portfolio' %}" style="color: #2563eb; text-decoration: none;">← Voltar ao Início</a>
+    </div>
+</article>
+{% endblock %}

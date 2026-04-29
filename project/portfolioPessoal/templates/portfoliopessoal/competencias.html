@@ -1,14 +1,21 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
-<h2>💪 Competências</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>🏆 Minhas Competências</h2>
+    <a href="{% url 'nova_competencia' %}" style="background: #2563eb; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">+ Adicionar</a>
+</div>
+
 <section>
     {% for c in competencias %}
-    <article>
-        <h3>{{ c.nomeCompetencia }}</h3>
-        <p><strong>Categoria:</strong> {{ c.categoria }}</p>
+    <article style="background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #eee;">
+        <h3>{{ c.nomeCompetencia }} <small style="color: #6b7280;">({{ c.categoria }})</small></h3>
         <p>{{ c.descricaoCompetencia }}</p>
+        
+        <div style="margin-top: 10px;">
+            <a href="{% url 'editar_competencia' c.id %}" style="color: #ca8a04;">[Editar]</a>
+            <a href="{% url 'apagar_competencia' c.id %}" style="color: #dc2626; margin-left: 15px;">[Apagar]</a>
+        </div>
     </article>
     {% endfor %}
 </section>
-<a href="{% url 'portfolio' %}">← Voltar</a>
 {% endblock %}

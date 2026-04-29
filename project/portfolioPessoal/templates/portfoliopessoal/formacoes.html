@@ -1,14 +1,30 @@
 {% extends "portfoliopessoal/base.html" %}
+
 {% block content %}
-<h2>🏗️ Formações</h2>
-<section>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+    <h2>🎓 Minha Formação Académica</h2>
+    <a href="{% url 'nova_formacao' %}" style="background: #2563eb; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+        + Adicionar Formação
+    </a>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 15px;">
     {% for f in formacoes %}
-    <article>
-        <h3>{{ f.nomeFormacao }}</h3>
-        <p><strong>Instituição:</strong> {{ f.instituicao }}</p>
-        <p><strong>Duração:</strong> {{ f.duracaoFormacao }}</p>
+    <article style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #1e40af;">
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3 style="margin: 0; color: #1e40af;">{{ f.curso }}</h3>
+                <p style="margin: 5px 0; font-weight: bold;">{{ f.instituicao }} | {{ f.ano_conclusao }}</p>
+                <p style="color: #4b5563;">{{ f.descricao }}</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; text-align: right;">
+                <a href="{% url 'editar_formacao' f.id %}" style="color: #ca8a04; text-decoration: none; font-weight: bold;">✎ Editar</a>
+                <a href="{% url 'apagar_formacao' f.id %}" style="color: #dc2626; text-decoration: none; font-weight: bold;">🗑 Apagar</a>
+            </div>
+        </div>
     </article>
+    {% empty %}
+    <p>Ainda não tens formações registadas.</p>
     {% endfor %}
 </section>
-<a href="{% url 'portfolio' %}">← Voltar</a>
 {% endblock %}

@@ -1,6 +1,13 @@
 {% extends "portfoliopessoal/base.html" %}
+
 {% block content %}
-<h2>🛠️ Tecnologias</h2>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>🛠️ Tecnologias</h2>
+    <a href="{% url 'nova_tecnologia' %}" style="background: #2563eb; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+        + Adicionar Tecnologia
+    </a>
+</div>
+
 <section>
     {% for t in tecnologias %}
     <article>
@@ -10,11 +17,26 @@
                 <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}" style="max-width:60px;">
             {% endif %}
         </header>
+        
         <p>{{ t.descricaoTecnologia }}</p>
         <p><strong>Tipo:</strong> {{ t.tipoTecnologia }}</p>
         <p><strong>Nível:</strong> {{ t.classificacao }}/10</p>
+
+        <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 15px;">
+            <a href="{% url 'editar_tecnologia' t.nomeTecnologia %}" style="color: #ca8a04; text-decoration: none; font-weight: bold;">
+                ✎ Editar
+            </a>
+            <a href="{% url 'apagar_tecnologia' t.nomeTecnologia %}" style="color: #dc2626; text-decoration: none; font-weight: bold;">
+                🗑 Apagar
+            </a>
+        </div>
     </article>
+    {% empty %}
+    <p>Ainda não tens tecnologias registadas.</p>
     {% endfor %}
 </section>
-<a href="{% url 'portfolio' %}">← Voltar</a>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'portfolio' %}" style="color: #6b7280;">← Voltar ao Menu</a>
+</div>
 {% endblock %}

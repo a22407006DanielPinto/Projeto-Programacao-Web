@@ -1,0 +1,21 @@
+{% extends "portfoliopessoal/base.html" %}
+
+{% block content %}
+<article style="max-width: 500px; margin: 40px auto; text-align: center; border: 2px solid #dc2626; padding: 30px; border-radius: 10px; background: white;">
+    <h2 style="color: #dc2626;">Apagar esta Formação?</h2>
+    <p>Tens a certeza que queres eliminar o registo do curso:</p>
+    <h3 style="margin: 20px 0;">"{{ formacao.curso }}"</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <button type="submit" style="background: #dc2626; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Sim, Eliminar
+            </button>
+            <a href="{% url 'formacoes' %}" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                Não, Voltar
+            </a>
+        </div>
+    </form>
+</article>
+{% endblock %}

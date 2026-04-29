@@ -1,0 +1,23 @@
+{% extends "portfoliopessoal/base.html" %}
+
+{% block content %}
+<article style="max-width: 500px; margin: 40px auto; text-align: center; border: 2px solid #dc2626;">
+    <header>
+        <h2 style="color: #dc2626;">Apagar Tecnologia?</h2>
+    </header>
+    
+    <p>Desejas remover a tecnologia: <strong>{{ tecnologia.nomeTecnologia }}</strong>?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+            <button type="submit" style="background: #dc2626; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                Confirmar Remoção
+            </button>
+            <a href="{% url 'tecnologias' %}" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                Voltar
+            </a>
+        </div>
+    </form>
+</article>
+{% endblock %}

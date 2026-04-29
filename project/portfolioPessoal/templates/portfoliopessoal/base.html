@@ -4,23 +4,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Portfolio</title>
-    <link rel="stylesheet" href="{% static 'escola/styles.css' %}">
+    <title>Daniel Pinto | Portfolio pessoal</title>
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=5.0">
+
+    <style>
+        /* --- BLOQUEIO DE SEGURANÇA PARA DUPLICADOS --- */
+        form ul, .checkbox-list, input[type="checkbox"], 
+        label[for*="id_tfcs"], label[for*="id_tecnologias"], 
+        label[for*="id_interesses"], label[for*="id_formacoes"], 
+        label[for*="id_competencias"] { 
+            display: none !important; 
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <h1>Daniel Pinto | Portfolio</h1> <nav>
-            <a href="{% url 'portfolio' %}">Início Portfolio</a>
-            <a href="{% url 'cursos' %}">Voltar à Escola</a> </nav>
+        <h1>Daniel Pinto <span>| Portfolio pessoal</span></h1>
+        <nav>
+            <a href="{% url 'portfolio' %}">Início</a>
+            <a href="{% url 'sobre' %}">Sobre</a>
+            <a href="{% url 'competencias' %}">Competências</a>
+            <a href="{% url 'projetos' %}">Projetos</a>
+        </nav>
     </header>
 
     <main>
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; 2026 - Portfolio Pessoal</p>
-    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const groups = {};
+            
+            checkboxes.forEach(cb => {
+                if (!groups[cb.name]) groups[cb.name] = [];
+                groups[cb.name].push(cb);
+            });
+
+            Object.keys(groups).forEach(name => {
+                const group = groups[name];
+                if (group.length > 0) {
+                    const first = group[0];
+                    const container = first.closest('ul') || first.closest('p') || first.parentElement;
+                    container.style.display = 'none';
+
+                    const select = document.createElement('select');
+                    select.className = 'picker-dropdown';
+                    
+                    let labelElem = container.previousElementSibling;
+                    let labelText = (labelElem && labelElem.tagName === 'LABEL') ? labelElem.innerText : name;
+                    
+                    select.innerHTML = `<option value="">+ Selecionar ${labelText.replace(':', '')}</option>`;
+                    const tagsDiv = document.createElement('div');
+                    tagsDiv.className = 'tags-area';
+
+                    group.forEach(cb => {
+                        let text = cb.closest('li')?.innerText.trim() || 
+                                   document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || 
+                                   cb.value;
+                        const opt = document.createElement('option');
+                        opt.value = cb.id;
+                        opt.textContent = text;
+                        select.appendChild(opt);
+                    });
+
+                    container.parentNode.insertBefore(select, container);
+                    container.parentNode.insertBefore(tagsDiv, container);
+
+                    const refresh = () => {
+                        tagsDiv.innerHTML = '';
+                        const checked = group.filter(c => c.checked);
+                        if (checked.length === 0) {
+                            tagsDiv.innerHTML = '<small style="color:#64748b">Nada selecionado.</small>';
+                        }
+                        checked.forEach(cb => {
+                            let text = cb.closest('li')?.innerText.trim() || 
+                                       document.querySelector(`label[for="${cb.id}"]`)?.innerText.trim() || 
+                                       cb.value;
+                            const tag = document.createElement('div');
+                            tag.className = 'tag-badge';
+                            tag.innerHTML = `<span>${text}</span> <span class="remove-btn" data-id="${cb.id}">×</span>`;
+                            tagsDiv.appendChild(tag);
+                        });
+                    };
+
+                    select.addEventListener('change', (e) => {
+                        const cb = document.getElementById(e.target.value);
+                        if (cb) { cb.checked = true; refresh(); }
+                        e.target.value = ""; 
+                    });
+
+                    tagsDiv.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('remove-btn')) {
+                            const cb = document.getElementById(e.target.dataset.id);
+                            if (cb) { cb.checked = false; refresh(); }
+                        }
+                    });
+                    refresh();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
