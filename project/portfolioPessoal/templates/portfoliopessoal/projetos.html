@@ -2,12 +2,17 @@
 {% load static %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    
+    {% if gestao %}
+        <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    {% else %}
+        <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Os Meus <span>Projetos</span></h2>
         
-        {% if request.user.is_staff %}
+        {% if gestao %}
         <a href="{% url 'novo_projeto' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">
             + Adicionar Projeto
         </a>
@@ -38,7 +43,7 @@
                 <p class="p-year-row">📅 Ano: {{ p.anoRealizacao }}</p>
             </div>
 
-            {% if request.user.is_staff %}
+            {% if gestao %}
             <div class="p-card-actions">
                 <a href="{% url 'editar_projeto' p.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_projeto' p.id %}" class="p-btn-delete">🗑 Apagar</a>

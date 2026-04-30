@@ -8,7 +8,13 @@ urlpatterns = [
     path('gestao/', views.admin_dashboard_view, name='admin_dashboard'),
     path('percurso/', views.percurso_view, name='percurso'),
     
-    # PERFIL DO DOCENTE (NOVO)
+    # NOVAS ROTAS DE GESTÃO (EXCLUSIVAS DO PAINEL)
+    path('gestao/projetos/', views.gestao_projetos_view, name='gestao_projetos'),
+    path('gestao/competencias/', views.gestao_competencias_view, name='gestao_competencias'),
+    path('gestao/tecnologias/', views.gestao_tecnologias_view, name='gestao_tecnologias'),
+    path('gestao/formacoes/', views.gestao_formacoes_view, name='gestao_formacoes'),
+    
+    # PERFIL DO DOCENTE
     path('docente/<str:id>/', views.detalhe_docente_view, name='detalhe_docente'),
 
     # PROJETOS (CRUD)

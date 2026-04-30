@@ -1,11 +1,19 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    
+    {% if gestao %}
+        <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    {% else %}
+        <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Tecnologias </span></h2>
+        
+        {% if gestao %}
         <a href="{% url 'nova_tecnologia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar Tecnologia</a>
+        {% endif %}
     </div>
 
     <section class="tech-grid">
@@ -32,10 +40,12 @@
                 </div>
             </div>
 
+            {% if gestao %}
             <div class="tech-actions">
                 <a href="{% url 'editar_tecnologia' t.nomeTecnologia %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_tecnologia' t.nomeTecnologia %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
+            {% endif %}
 
         </article>
         {% empty %}

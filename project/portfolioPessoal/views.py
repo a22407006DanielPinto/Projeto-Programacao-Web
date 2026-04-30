@@ -50,6 +50,23 @@ def detalhe_docente_view(request, id):
 def admin_dashboard_view(request):
     return render(request, 'portfoliopessoal/admin_dashboard.html')
 
+# === NOVAS VIEWS DE GESTÃO (ATIRAM PARA O MODO EDIÇÃO) ===
+@staff_member_required
+def gestao_projetos_view(request):
+    return render(request, 'portfoliopessoal/projetos.html', {'projetos': Projeto.objects.all(), 'gestao': True})
+
+@staff_member_required
+def gestao_competencias_view(request):
+    return render(request, 'portfoliopessoal/competencias.html', {'competencias': Competencia.objects.all(), 'gestao': True})
+
+@staff_member_required
+def gestao_tecnologias_view(request):
+    return render(request, 'portfoliopessoal/tecnologias.html', {'tecnologias': Tecnologia.objects.all(), 'gestao': True})
+
+@staff_member_required
+def gestao_formacoes_view(request):
+    return render(request, 'portfoliopessoal/formacoes.html', {'formacoes': Formacao.objects.all(), 'gestao': True})
+
 
 # LISTAGENS (Abertas a Todos)
 def projetos_view(request):
