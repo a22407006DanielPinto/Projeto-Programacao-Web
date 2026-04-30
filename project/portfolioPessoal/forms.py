@@ -13,12 +13,11 @@ class ProjetoForm(forms.ModelForm):
         widgets = {
             'descricaoProjeto': forms.Textarea(attrs={'class': 'form-input', 'rows': 4}),
             'anoRealizacao': forms.NumberInput(attrs={'class': 'form-input'}),
-            # Estes campos vão ser transformados em dropdowns com tags
             'tecnologias': forms.CheckboxSelectMultiple(),
             'competencias': forms.CheckboxSelectMultiple(),
         }
 
-# FORMULÁRIO DE TECNOLOGIA (Corrigido e único)
+# FORMULÁRIO DE TECNOLOGIA
 class TecnologiaForm(forms.ModelForm):
     class Meta:
         model = Tecnologia
@@ -44,7 +43,6 @@ class CompetenciaForm(forms.ModelForm):
         widgets = {
             'nomeCompetencia': forms.TextInput(attrs={'class': 'form-input'}),
             'descricaoCompetencia': forms.Textarea(attrs={'class': 'form-input', 'rows': 3}),
-            # Transformar as listas gigantes (TFCs, etc) em dropdowns com tags
             'tfcs': forms.CheckboxSelectMultiple(),
             'formacoes': forms.CheckboxSelectMultiple(),
             'interesses': forms.CheckboxSelectMultiple(),

@@ -8,7 +8,7 @@ urlpatterns = [
     path('gestao/', views.admin_dashboard_view, name='admin_dashboard'),
     path('percurso/', views.percurso_view, name='percurso'),
     
-    # NOVAS ROTAS DE GESTÃO (EXCLUSIVAS DO PAINEL)
+    # NOVOS CAMINHOS DE GESTÃO (EXCLUSIVAS DO PAINEL)
     path('gestao/projetos/', views.gestao_projetos_view, name='gestao_projetos'),
     path('gestao/competencias/', views.gestao_competencias_view, name='gestao_competencias'),
     path('gestao/tecnologias/', views.gestao_tecnologias_view, name='gestao_tecnologias'),
