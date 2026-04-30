@@ -1,27 +1,67 @@
 {% extends 'portfoliopessoal/base.html' %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar à Gestão</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Minhas <span>Competências</span></h2>
-        <a href="{% url 'nova_competencia' %}" class="btn-hero-primary" style="padding: 12px 25px;">+ Adicionar</a>
+        <a href="{% url 'nova_competencia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar</a>
     </div>
 
-    <section class="card-grid">
+    <section class="project-grid">
         {% for c in competencias %}
-        <article class="card-content">
-            <h3 style="color: #ffffff; margin-top: 0;">{{ c.nomeCompetencia }} 
-                <small style="color: var(--accent); font-size: 0.8rem; display: block; margin-top: 5px;">{{ c.categoria }}</small>
-            </h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">{{ c.descricaoCompetencia }}</p>
-            
-            <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; gap: 20px;">
-                <a href="{% url 'editar_competencia' c.id %}" style="color: var(--accent); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">✎ Editar</a>
-                <a href="{% url 'apagar_competencia' c.id %}" style="color: #ef4444; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">🗑 Apagar</a>
+        <article class="p-card">
+
+            <div class="p-info">
+                <h3>{{ c.nomeCompetencia }}</h3>
+                <small style="color: var(--accent); font-size: 0.8rem; display: block; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{{ c.categoria }}</small>
+
+                <p class="p-text" id="text-{{ c.id }}">{{ c.descricaoCompetencia }}</p>
+                <button class="p-expand-btn" onclick="toggleDesc('{{ c.id }}')">
+                    <span id="label-{{ c.id }}">Ver mais</span>
+                    <svg id="arrow-{{ c.id }}" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </button>
+
+                {% if c.tecnologias.all %}
+                <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
+                    {% for t in c.tecnologias.all %}
+                    <span style="background: rgba(59,130,246,0.1); border: 1px solid var(--accent); color: #fff; padding: 3px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">{{ t.nomeTecnologia }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
+
+            <div class="p-card-actions">
+                <a href="{% url 'editar_competencia' c.id %}" class="p-btn-edit">✎ Editar</a>
+                <a href="{% url 'apagar_competencia' c.id %}" class="p-btn-delete">🗑 Apagar</a>
+            </div>
+
         </article>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+            <p style="color: var(--text-muted);">Ainda não tens competências registadas.</p>
+        </div>
         {% endfor %}
     </section>
 </div>
+
+<script>
+function toggleDesc(id) {
+    const text = document.getElementById('text-' + id);
+    const label = document.getElementById('label-' + id);
+    const arrow = document.getElementById('arrow-' + id);
+
+    text.classList.toggle('is-expanded');
+
+    if (text.classList.contains('is-expanded')) {
+        label.innerText = 'Fechar';
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        label.innerText = 'Ver mais';
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
 {% endblock %}

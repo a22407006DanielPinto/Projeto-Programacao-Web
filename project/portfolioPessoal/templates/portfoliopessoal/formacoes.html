@@ -1,26 +1,42 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar à Gestão</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Percurso <span>Académico</span></h2>
-        <a href="{% url 'nova_formacao' %}" class="btn-hero-primary" style="padding: 12px 25px;">+ Adicionar Formação</a>
+        <a href="{% url 'nova_formacao' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar Formação</a>
     </div>
 
-    <section style="display: flex; flex-direction: column; gap: 20px;">
+    <section class="formacao-list">
         {% for f in formacoes %}
-        <article class="card-content" style="display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--purple);">
-            <div>
-                <h3 style="margin: 0; color: #ffffff; font-size: 1.4rem;">{{ f.curso }}</h3>
-                <p style="margin: 5px 0; color: var(--accent); font-weight: 700;">{{ f.instituicao }} | {{ f.ano_conclusao }}</p>
-                <p style="color: var(--text-muted); margin-bottom: 0;">{{ f.descricao }}</p>
+        <article class="formacao-card">
+
+            <div class="formacao-ano">
+                <span>{{ f.ano_conclusao }}</span>
             </div>
-            <div style="display: flex; gap: 20px;">
-                <a href="{% url 'editar_formacao' f.id %}" style="color: var(--accent); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">✎ Editar</a>
-                <a href="{% url 'apagar_formacao' f.id %}" style="color: #ef4444; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">🗑 Apagar</a>
+
+            <div class="formacao-connector">
+                <div class="formacao-dot"></div>
+                <div class="formacao-line"></div>
             </div>
+
+            <div class="formacao-body">
+                <h3 class="formacao-titulo">{{ f.nomeFormacao }}</h3>
+                <p class="formacao-inst">{{ f.instituicao }}</p>
+                <p class="formacao-duracao">⏱ {{ f.duracaoFormacao }}</p>
+            </div>
+
+            <div class="formacao-actions">
+                <a href="{% url 'editar_formacao' f.id %}" class="p-btn-edit">✎ Editar</a>
+                <a href="{% url 'apagar_formacao' f.id %}" class="p-btn-delete">🗑 Apagar</a>
+            </div>
+
         </article>
+        {% empty %}
+        <div style="text-align: center; padding: 50px;">
+            <p style="color: var(--text-muted);">Ainda não tens formações registadas.</p>
+        </div>
         {% endfor %}
     </section>
 </div>

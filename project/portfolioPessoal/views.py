@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import (
-    Competencia, Docente, Tecnologia, Licenciatura, 
+    Competencia, Docente, Tecnologia, Licenciatura,
     UnidadeCurricular, TFC, Projeto, Formacao, Interesse, MakingOf
 )
 from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
@@ -10,11 +10,33 @@ def portfolio_view(request):
     return render(request, 'portfoliopessoal/portfolio.html')
 
 def sobre_view(request):
-    return render(request, 'portfoliopessoal/sobre.html')
+    try:
+        portfolio = Projeto.objects.get(nomeProjeto="Portfolio Pessoal")
+        tecnologias = portfolio.tecnologias.all().order_by('tipoTecnologia')
+    except Projeto.DoesNotExist:
+        tecnologias = []
+    makingofs = MakingOf.objects.filter(projeto__nomeProjeto="Portfolio Pessoal").order_by('id')
+    return render(request, 'portfoliopessoal/sobre.html', {
+        'makingofs': makingofs,
+        'tecnologias': tecnologias,
+    })
 
 def admin_dashboard_view(request):
-    # Página central de edição
     return render(request, 'portfoliopessoal/admin_dashboard.html')
+
+def percurso_view(request):
+    try:
+        licenciatura = Licenciatura.objects.prefetch_related(
+            'unidades_curriculares',
+            'unidades_curriculares__equipa_docente',
+        ).get(nomeCurso="Informática de Gestão")
+    except Licenciatura.DoesNotExist:
+        licenciatura = None
+    formacoes = Formacao.objects.all()
+    return render(request, 'portfoliopessoal/percurso.html', {
+        'licenciatura': licenciatura,
+        'formacoes': formacoes,
+    })
 
 # LISTAGENS
 def projetos_view(request):

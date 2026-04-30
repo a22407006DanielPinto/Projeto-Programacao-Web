@@ -1,62 +1,55 @@
 {% extends 'portfoliopessoal/base.html' %}
-
 {% block content %}
-<div class="admin-wrapper" style="padding-top: 50px; animation: fadeInUp 0.8s ease-out;">
+<div style="padding-top: 50px; animation: fadeInUp 0.8s ease-out;">
     <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
-    
-    <div class="admin-header" style="text-align: center; margin-bottom: 60px;">
-        <h2 class="hero-subtitle">Painel de <span>Controlo</span></h2>
-        <p class="admin-tagline">Central de gestão do Portfolio Pessoal</p>
+
+    <div style="text-align: center; margin-bottom: 70px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Painel de <span>Controlo</span></h2>
+        <p style="color: var(--text-muted); font-size: 1rem;">Central de gestão do Portfolio Pessoal</p>
     </div>
-    
-    <div class="management-grid">
-        <div class="m-card">
-            <div class="m-card-background"></div>
-            <div class="m-card-inner">
-                <div class="m-icon-box blue">
-                    <span class="m-icon">📁</span>
-                </div>
+
+    <div class="dashboard-grid">
+
+        <a href="{% url 'projetos' %}" class="dash-card dash-blue">
+            <div class="dash-glow"></div>
+            <div class="dash-icon">📁</div>
+            <div class="dash-content">
                 <h3>Projetos</h3>
-                <p>Gestão dos Projetos.</p>
-                <a href="{% url 'projetos' %}" class="m-btn">Ver Projetos</a>
+                <p>Gestão dos Projetos realizados.</p>
             </div>
-        </div>
+            <div class="dash-arrow">→</div>
+        </a>
 
-        <div class="m-card">
-            <div class="m-card-background"></div>
-            <div class="m-card-inner">
-                <div class="m-icon-box purple">
-                    <span class="m-icon">⚡</span>
-                </div>
+        <a href="{% url 'competencias' %}" class="dash-card dash-purple">
+            <div class="dash-glow"></div>
+            <div class="dash-icon">⚡</div>
+            <div class="dash-content">
                 <h3>Competências</h3>
-                <p>Gestão das Soft e Hard-Skills.</p>
-                <a href="{% url 'competencias' %}" class="m-btn">Gerir Skills</a>
+                <p>Gestão das Soft Skills e Hard Skills adquiridas.</p>
             </div>
-        </div>
+            <div class="dash-arrow">→</div>
+        </a>
 
-        <div class="m-card">
-            <div class="m-card-background"></div>
-            <div class="m-card-inner">
-                <div class="m-icon-box cyan">
-                    <span class="m-icon">🛠️</span>
-                </div>
+        <a href="{% url 'tecnologias' %}" class="dash-card dash-cyan">
+            <div class="dash-glow"></div>
+            <div class="dash-icon">🛠️</div>
+            <div class="dash-content">
                 <h3>Tecnologias</h3>
-                <p>Gestão das Ferramentas Tecnológicas.</p>
-                <a href="{% url 'tecnologias' %}" class="m-btn">Gerir Ferramentas</a>
+                <p>Gestão das ferramentas tecnológicas utilizadas.</p>
             </div>
-        </div>
+            <div class="dash-arrow">→</div>
+        </a>
 
-        <div class="m-card">
-            <div class="m-card-background"></div>
-            <div class="m-card-inner">
-                <div class="m-icon-box gold">
-                    <span class="m-icon">🎓</span>
-                </div>
+        <a href="{% url 'formacoes' %}" class="dash-card dash-gold">
+            <div class="dash-glow"></div>
+            <div class="dash-icon">🎓</div>
+            <div class="dash-content">
                 <h3>Formações</h3>
-                <p>Gestão do meu Percurso Académico.</p>
-                <a href="{% url 'formacoes' %}" class="m-btn">Verificar Currículo</a>
+                <p>Gestão do Percurso académico e certificações obtidas.</p>
             </div>
-        </div>
+            <div class="dash-arrow">→</div>
+        </a>
+
     </div>
 </div>
 {% endblock %}

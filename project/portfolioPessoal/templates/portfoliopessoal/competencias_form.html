@@ -2,13 +2,34 @@
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
     <a href="{% url 'competencias' %}" class="btn-back">← Voltar às Competências</a>
-    <div class="card-content" style="max-width: 800px; margin: auto;">
-        <h2 class="hero-subtitle" style="margin-top: 0;">{{ titulo }}<span>.</span></h2>
-        <form method="POST">
+
+    <div class="glass-form-container">
+        <div class="form-header">
+            <h2 class="hero-subtitle" style="margin-top: 0; font-size: 2.5rem;">{{ titulo }}<span>.</span></h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Configura os detalhes e associações desta competência.</p>
+        </div>
+
+        <form method="POST" class="styled-form">
             {% csrf_token %}
-            {{ form.as_p }}
-            <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; text-align: right;">
-                <button type="submit" class="btn-save" style="width: auto; padding: 15px 40px;">Guardar Competência</button>
+            <div class="form-sections">
+                {% for field in form %}
+                <div class="form-field-group">
+                    <label>{{ field.label }}</label>
+                    <div class="field-container">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                    <span class="error-msg" style="color: #ef4444; font-size: 0.8rem;">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-footer">
+                <a href="{% url 'competencias' %}" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-save-main">
+                    <span>💾</span> Guardar Competência
+                </button>
             </div>
         </form>
     </div>

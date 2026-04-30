@@ -1,21 +1,347 @@
 {% extends "portfoliopessoal/base.html" %}
-
+{% load static %}
+{% load markdownify %}
 {% block content %}
-<article style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <h2 style="color: #1e40af; border-bottom: 2px solid #eee; padding-bottom: 10px;">Sobre esta Aplicação</h2>
-    
-    <p>Esta aplicação foi desenvolvida por <strong>Daniel Pinto</strong> no âmbito da disciplina de Programação Web em 2026.</p>
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
 
-    <h3>O que é o Django MVT?</h3>
-    <p>Este projeto segue o padrão de arquitetura Model-View-Template:</p>
-    <ul>
-        <li><strong>Model:</strong> Gere os dados e a base de dados (ex: Projetos e Tecnologias).</li>
-        <li><strong>View:</strong> Contém a lógica que decide o que mostrar ao utilizador.</li>
-        <li><strong>Template:</strong> É a parte visual em HTML que o utilizador vê.</li>
-    </ul>
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
 
-    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-        <a href="{% url 'portfolio' %}" style="color: #2563eb; text-decoration: none;">← Voltar ao Início</a>
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Sobre esta <span>Aplicação</span></h2>
+        <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto;">
+            Desenvolvida por <strong style="color: white;">Daniel Pinto</strong> · Programação Web · ULHT · 2026
+        </p>
     </div>
-</article>
+
+    <!-- 01: ARQUITETURA MVT -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">01</span>
+            <h3 class="sobre-section-title">Arquitetura MVT do Django</h3>
+        </div>
+        <div class="sobre-section-body">
+            <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px;">
+                Este projeto segue o padrão <strong style="color: white;">Model-View-Template</strong> do Django.
+                Cada componente tem um papel específico no fluxo de informação da aplicação.
+            </p>
+            <div class="mvt-grid">
+                <div class="mvt-card mvt-model">
+                    <div class="mvt-icon">🗄️</div>
+                    <h4>Model</h4>
+                    <p>Gere os dados e a estrutura da base de dados. Define entidades como Projeto, Tecnologia e Competência e as relações entre elas.</p>
+                </div>
+                <div class="mvt-card mvt-view">
+                    <div class="mvt-icon">⚙️</div>
+                    <h4>View</h4>
+                    <p>Contém a lógica de negócio. Recebe pedidos HTTP, consulta os Models e decide que Template renderizar com que dados.</p>
+                </div>
+                <div class="mvt-card mvt-template">
+                    <div class="mvt-icon">🎨</div>
+                    <h4>Template</h4>
+                    <p>Camada visual em HTML+CSS que o utilizador vê. Recebe os dados da View e apresenta-os de forma estruturada.</p>
+                </div>
+            </div>
+
+            <div class="mvt-flow">
+                <span class="mvt-flow-item">Browser</span>
+                <span class="mvt-flow-arrow">→</span>
+                <span class="mvt-flow-item">URLs</span>
+                <span class="mvt-flow-arrow">→</span>
+                <span class="mvt-flow-item">View</span>
+                <span class="mvt-flow-arrow">↕</span>
+                <span class="mvt-flow-item">Model</span>
+                <span class="mvt-flow-arrow">↕</span>
+                <span class="mvt-flow-item">Base de Dados</span>
+                <span class="mvt-flow-arrow">→</span>
+                <span class="mvt-flow-item">Template</span>
+                <span class="mvt-flow-arrow">→</span>
+                <span class="mvt-flow-item">Browser</span>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: 700;">Vídeo Tutorial</p>
+                <div style="background: rgba(59,130,246,0.05); border: 1px dashed rgba(59,130,246,0.3); border-radius: 16px; padding: 40px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                    🎬 Vídeo tutorial em preparação — será incorporado aqui assim que disponível.
+                    <!-- Substituir por: <iframe width="100%" height="400" src="https://www.youtube.com/embed/SEU_ID" frameborder="0" allowfullscreen style="border-radius:12px;"></iframe> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 02: MODELAÇÃO -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">02</span>
+            <h3 class="sobre-section-title">Modelação — Diagrama E-R</h3>
+        </div>
+        <div class="sobre-section-body">
+            <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px;">
+                O diagrama Entidade-Relação define a estrutura da base de dados com <strong style="color: white;">10 entidades principais</strong> e as suas relações de cardinalidade.
+            </p>
+
+            <a href="/media/makingof/Etapa_3.jpeg" target="_blank">
+                <img src="/media/makingof/Etapa_3.jpeg" alt="Diagrama E-R Final"
+                     style="width: 100%; max-width: 600px; display: block; margin: 0 auto 30px auto; border-radius: 16px; border: 1px solid var(--border); cursor: zoom-in;"
+                     onerror="this.style.display='none'">
+            </a>
+
+            <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: 700;">Implementação em models.py</p>
+            <div class="code-block">
+                <pre><code>from django.db import models
+
+class Competencia(models.Model):
+    nomeCompetencia = models.CharField(max_length=100, verbose_name="Competência")
+    descricaoCompetencia = models.TextField(verbose_name="Descrição")
+    categoria = models.CharField(max_length=50, verbose_name="Categoria")
+    tfcs = models.ManyToManyField('TFC', related_name='competencias_validas', blank=True)
+    formacoes = models.ManyToManyField('Formacao', related_name='competencias_validas', blank=True)
+    interesses = models.ManyToManyField('Interesse', related_name='competencias_validas', blank=True)
+    tecnologias = models.ManyToManyField('Tecnologia', related_name='competencias_validas', blank=True)
+
+class Docente(models.Model):
+    idDocente = models.CharField(max_length=50, primary_key=True)
+    nomeDocente = models.CharField(max_length=150)
+    linkPerfilUniversidade = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    ucs_lecionadas = models.ManyToManyField('UnidadeCurricular', related_name='equipa_docente', blank=True)
+
+class Tecnologia(models.Model):
+    nomeTecnologia = models.CharField(max_length=100, primary_key=True)
+    descricaoTecnologia = models.TextField()
+    logotipo = models.ImageField(upload_to='tecnologias/', blank=True, null=True)
+    linkSite = models.URLField(blank=True, null=True)
+    tipoTecnologia = models.CharField(max_length=50)
+    classificacao = models.IntegerField()
+
+class Licenciatura(models.Model):
+    nomeCurso = models.CharField(max_length=200, primary_key=True)
+    descricaoCurso = models.TextField()
+    creditosCurso = models.IntegerField()
+    duracao = models.CharField(max_length=50)
+    formato = models.CharField(max_length=50)
+    website = models.URLField(blank=True, null=True)
+    faculdade = models.CharField(max_length=150)
+
+class UnidadeCurricular(models.Model):
+    idUC = models.CharField(max_length=20, primary_key=True)
+    nomeUC = models.CharField(max_length=150)
+    ano = models.IntegerField()
+    semestre = models.IntegerField()
+    creditosUC = models.IntegerField()
+    descricaoUC = models.TextField(null=True, blank=True)
+    objetivos = models.TextField(null=True, blank=True)
+    programa = models.TextField(null=True, blank=True)
+    metodologia = models.TextField(null=True, blank=True)
+    bibliografia = models.TextField(null=True, blank=True)
+    metodos_avaliacao = models.TextField(null=True, blank=True)
+    imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
+    linkUC = models.URLField(blank=True, null=True)
+    cursos = models.ManyToManyField(Licenciatura, related_name='unidades_curriculares', blank=True)
+    tecnologias = models.ManyToManyField(Tecnologia, related_name='ucs_onde_usada', blank=True)
+    competencias = models.ManyToManyField(Competencia, related_name='ucs_associadas', blank=True)
+
+class TFC(models.Model):
+    tituloTFC = models.CharField(max_length=200)
+    descricaoTFC = models.TextField()
+    autores = models.CharField(max_length=250)
+    anoRealizacao = models.IntegerField()
+    classificacaoTFC = models.IntegerField()
+    linkTFC = models.URLField(blank=True, null=True)
+    orientadores = models.ManyToManyField(Docente, related_name='tfcs_orientados', blank=True)
+    curso = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='tfcs')
+    tecnologias = models.ManyToManyField(Tecnologia, related_name='tfcs_onde_usada', blank=True)
+
+class Projeto(models.Model):
+    nomeProjeto = models.CharField(max_length=150)
+    descricaoProjeto = models.TextField()
+    anoRealizacao = models.IntegerField()
+    linkGitHub = models.URLField(blank=True, null=True)
+    fotoProjeto = models.ImageField(upload_to='projetos/', blank=True, null=True)
+    linksVideo = models.URLField(blank=True, null=True)
+    uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE, related_name='projetos')
+    tecnologias = models.ManyToManyField(Tecnologia, related_name='projetos_onde_usada', blank=True)
+    competencias = models.ManyToManyField(Competencia, related_name='projetos_associados', blank=True)
+
+class Formacao(models.Model):
+    nomeFormacao = models.CharField(max_length=150)
+    instituicao = models.CharField(max_length=150)
+    duracaoFormacao = models.CharField(max_length=50)
+
+class Interesse(models.Model):
+    nomeInteresse = models.CharField(max_length=100, primary_key=True)
+    descricaoInteresse = models.TextField()
+    categoriaInteresse = models.CharField(max_length=50)
+
+class MakingOf(models.Model):
+    etapas = models.CharField(max_length=100)
+    registos = models.FileField(upload_to='makingof/', blank=True, null=True)
+    descricaoDecisoes = models.TextField()
+    justificacaoDecisoes = models.TextField()
+    errosEncontrados = models.TextField()
+    solucao = models.TextField()
+    usoIA = models.TextField()
+    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE, related_name='makingof_logs')</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- 03: TECNOLOGIAS -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">03</span>
+            <h3 class="sobre-section-title">Tecnologias Utilizadas</h3>
+        </div>
+        <div class="sobre-section-body">
+            <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px;">
+                Tecnologias utilizadas na construção desta aplicação, organizadas por categoria.
+            </p>
+
+            {% regroup tecnologias by tipoTecnologia as tecnologias_por_tipo %}
+            {% for tipo in tecnologias_por_tipo %}
+            <div style="margin-bottom: 36px;">
+                <p style="color: var(--text-muted); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+                    {{ tipo.grouper }}
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    {% for t in tipo.list %}
+                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; display: flex; gap: 20px; align-items: flex-start; transition: 0.3s;"
+                         onmouseover="this.style.borderColor='rgba(59,130,246,0.3)'"
+                         onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+                        {% if t.logotipo %}
+                        <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}"
+                             style="width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 0 6px var(--accent-glow));">
+                        {% else %}
+                        <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), var(--purple)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 900; color: white; flex-shrink: 0;">
+                            {{ t.nomeTecnologia|slice:":2"|upper }}
+                        </div>
+                        {% endif %}
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px; flex-wrap: wrap;">
+                                <h4 style="margin: 0; color: #ffffff; font-size: 1rem; font-weight: 900;">{{ t.nomeTecnologia }}</h4>
+                                {% if t.linkSite %}
+                                <a href="{{ t.linkSite }}" target="_blank"
+                                   style="color: var(--accent); font-size: 0.72rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(59,130,246,0.3); padding: 2px 8px; border-radius: 6px;">
+                                    Site oficial →
+                                </a>
+                                {% endif %}
+                            </div>
+                            <p style="margin: 0; color: var(--text-muted); font-size: 0.87rem; line-height: 1.6;">{{ t.descricaoTecnologia }}</p>
+                        </div>
+                        <div style="flex-shrink: 0; text-align: right; padding-top: 4px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 80px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                                    <div style="height: 100%; width: {{ t.classificacao }}0%; background: linear-gradient(90deg, var(--accent), var(--purple)); border-radius: 4px;"></div>
+                                </div>
+                                <span style="color: var(--accent); font-size: 0.75rem; font-weight: 800;">{{ t.classificacao }}/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <p style="color: var(--text-muted);">Nenhuma tecnologia associada ao projeto Portfolio Pessoal.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 04: ESTRUTURA DE NAVEGAÇÃO -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">04</span>
+            <h3 class="sobre-section-title">Estrutura de Navegação</h3>
+        </div>
+        <div class="sobre-section-body">
+            <div class="nav-map">
+
+                <div class="nav-map-root">
+                    <div class="nav-node nav-root">🏠 Início</div>
+                </div>
+
+                <div style="width: 2px; height: 24px; background: var(--accent); opacity: 0.3; margin: 0 auto;"></div>
+
+                <div class="nav-map-branches">
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-public">📄 Sobre</div>
+                        <div style="width: 2px; height: 16px; background: var(--accent); opacity: 0.2; margin: 0 auto;"></div>
+                        <div class="nav-node nav-crud" style="font-size: 0.72rem;">🎬 Making Of</div>
+                    </div>
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-public">💼 Projetos</div>
+                    </div>
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-public">⚡ Competências</div>
+                    </div>
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-public">🛠️ Tecnologias</div>
+                    </div>
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-public">🎓 Formações</div>
+                    </div>
+
+                    <div class="nav-branch">
+                        <div class="nav-node nav-admin">🔒 Painel</div>
+                        <div style="width: 2px; height: 16px; background: var(--purple); opacity: 0.2; margin: 0 auto;"></div>
+                        <div class="nav-subbranches">
+                            <div class="nav-node nav-crud">Projetos CRUD</div>
+                            <div class="nav-node nav-crud">Competências CRUD</div>
+                            <div class="nav-node nav-crud">Tecnologias CRUD</div>
+                            <div class="nav-node nav-crud">Formações CRUD</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 05: GITHUB -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">05</span>
+            <h3 class="sobre-section-title">Repositório GitHub</h3>
+        </div>
+        <div class="sobre-section-body">
+            <div style="display: flex; align-items: flex-start; gap: 30px; flex-wrap: wrap;">
+                <a href="https://github.com/a22407006DanielPinto/Projeto-Programacao-Web"
+                   target="_blank" class="btn-hero-primary" style="padding: 14px 28px; font-size: 0.9rem; flex-shrink: 0;">
+                    🔗 Ver Repositório
+                </a>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; margin: 0;">
+                    O Git foi utilizado para controlo de versões ao longo de todo o desenvolvimento, permitindo registar cada etapa,
+                    reverter alterações e manter um histórico completo e transparente do projeto. O GitHub serviu como repositório
+                    remoto e plataforma de backup, garantindo que o código estava sempre acessível e seguro.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 06: MAKING OF -->
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">06</span>
+            <h3 class="sobre-section-title">Making Of</h3>
+        </div>
+        <div class="sobre-section-body">
+            <p style="color: var(--text-muted); line-height: 1.8; margin: 0 0 20px 0;">
+                O <strong style="color: white;">Making Of</strong> é o diário de desenvolvimento deste projeto —
+                um registo honesto de cada etapa, das decisões tomadas, dos erros encontrados e das soluções aplicadas,
+                desde a escolha das entidades até à implementação final no Django.
+            </p>
+            <p style="color: var(--text-muted); line-height: 1.8; margin: 0 0 30px 0;">
+                Cada entrada inclui a descrição das decisões, a justificação das mesmas, os erros encontrados,
+                as soluções aplicadas e o registo do uso de Inteligência Artificial em cada fase.
+            </p>
+            <a href="{% url 'makingof' %}" class="btn-hero-primary" style="padding: 14px 28px; font-size: 0.9rem;">
+                🎬 Ver Making Of Completo →
+            </a>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

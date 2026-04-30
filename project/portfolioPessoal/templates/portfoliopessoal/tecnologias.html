@@ -1,27 +1,47 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar à Gestão</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h2 class="hero-subtitle" style="margin: 0;">Meu <span>Arsenal Tech</span></h2>
-        <a href="{% url 'nova_tecnologia' %}" class="btn-hero-primary" style="padding: 12px 25px;">+ Adicionar Tecnologia</a>
+        <h2 class="hero-subtitle" style="margin: 0;">Tecnologias </span></h2>
+        <a href="{% url 'nova_tecnologia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar Tecnologia</a>
     </div>
 
-    <section class="card-grid">
+    <section class="tech-grid">
         {% for t in tecnologias %}
-        <article class="card-content" style="text-align: center;">
-            {% if t.logotipo %}
-                <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}" style="max-width: 70px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--accent-glow));">
-            {% endif %}
-            <h3 style="margin: 0; color: #ffffff;">{{ t.nomeTecnologia }}</h3>
-            <p style="color: var(--accent); font-weight: 800; font-size: 0.8rem; margin-top: 5px;">NÍVEL: {{ t.classificacao }}/10</p>
-            
-            <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; justify-content: center; gap: 20px;">
-                <a href="{% url 'editar_tecnologia' t.nomeTecnologia %}" style="color: var(--accent); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">✎ Editar</a>
-                <a href="{% url 'apagar_tecnologia' t.nomeTecnologia %}" style="color: #ef4444; text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">🗑 Apagar</a>
+        <article class="tech-card">
+
+            <div class="tech-logo-wrap">
+                {% if t.logotipo %}
+                    <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}" class="tech-logo">
+                {% else %}
+                    <div class="tech-logo-placeholder">{{ t.nomeTecnologia|slice:":2"|upper }}</div>
+                {% endif %}
             </div>
+
+            <div class="tech-info">
+                <h3 class="tech-name">{{ t.nomeTecnologia }}</h3>
+                <span class="tech-type">{{ t.tipoTecnologia }}</span>
+
+                <div class="tech-level-wrap">
+                    <div class="tech-level-bar">
+                        <div class="tech-level-fill" style="width: {{ t.classificacao }}0%"></div>
+                    </div>
+                    <span class="tech-level-label">{{ t.classificacao }}/10</span>
+                </div>
+            </div>
+
+            <div class="tech-actions">
+                <a href="{% url 'editar_tecnologia' t.nomeTecnologia %}" class="p-btn-edit">✎ Editar</a>
+                <a href="{% url 'apagar_tecnologia' t.nomeTecnologia %}" class="p-btn-delete">🗑 Apagar</a>
+            </div>
+
         </article>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+            <p style="color: var(--text-muted);">Ainda não tens tecnologias registadas.</p>
+        </div>
         {% endfor %}
     </section>
 </div>

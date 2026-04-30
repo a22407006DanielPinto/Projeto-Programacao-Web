@@ -31,7 +31,7 @@ class TecnologiaForm(forms.ModelForm):
             'classificacao': forms.NumberInput(attrs={
                 'class': 'form-input', 
                 'min': '0', 
-                'max': '5', 
+                'max': '10', 
                 'step': '1',
             }),
         }

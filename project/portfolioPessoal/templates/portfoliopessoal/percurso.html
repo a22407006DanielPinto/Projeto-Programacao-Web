@@ -1,0 +1,147 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
+
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+
+    <div style="text-align: center; margin-bottom: 70px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Percurso <span>Académico</span></h2>
+        <p style="color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto;">
+            O caminho percorrido — da escola secundária à licenciatura.
+        </p>
+    </div>
+
+    <!-- FORMAÇÕES (ESCOLA SECUNDÁRIA, ETC.) -->
+    {% if formacoes %}
+    <div class="sobre-section" style="margin-bottom: 40px;">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">01</span>
+            <h3 class="sobre-section-title">Formação Prévia</h3>
+        </div>
+        <div class="sobre-section-body">
+            <div class="formacao-list">
+                {% for f in formacoes %}
+                <div class="formacao-card">
+                    <div class="formacao-ano"><span>—</span></div>
+                    <div class="formacao-connector">
+                        <div class="formacao-dot"></div>
+                        <div class="formacao-line"></div>
+                    </div>
+                    <div class="formacao-body">
+                        <h3 class="formacao-titulo">{{ f.nomeFormacao }}</h3>
+                        <p class="formacao-inst">{{ f.instituicao }}</p>
+                        <p class="formacao-duracao">⏱ {{ f.duracaoFormacao }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- LICENCIATURA -->
+    {% if licenciatura %}
+    <div class="sobre-section" style="margin-bottom: 40px;">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">02</span>
+            <h3 class="sobre-section-title">{{ licenciatura.nomeCurso }}</h3>
+        </div>
+        <div class="sobre-section-body">
+
+            <!-- INFO GERAL -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px;">
+                <div class="percurso-stat">
+                    <span class="percurso-stat-label">Faculdade</span>
+                    <span class="percurso-stat-value">{{ licenciatura.faculdade }}</span>
+                </div>
+                <div class="percurso-stat">
+                    <span class="percurso-stat-label">Duração</span>
+                    <span class="percurso-stat-value">{{ licenciatura.duracao }}</span>
+                </div>
+                <div class="percurso-stat">
+                    <span class="percurso-stat-label">Créditos</span>
+                    <span class="percurso-stat-value">{{ licenciatura.creditosCurso }} ECTS</span>
+                </div>
+                <div class="percurso-stat">
+                    <span class="percurso-stat-label">Formato</span>
+                    <span class="percurso-stat-value">{{ licenciatura.formato }}</span>
+                </div>
+                {% if licenciatura.website %}
+                <div class="percurso-stat">
+                    <span class="percurso-stat-label">Website</span>
+                    <a href="{{ licenciatura.website }}" target="_blank"
+                       style="color: var(--accent); font-weight: 700; font-size: 0.85rem; text-decoration: none;">
+                        Ver site →
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- DESCRIÇÃO -->
+            {% if licenciatura.descricaoCurso %}
+            <div style="background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.15); border-radius: 16px; padding: 24px; margin-bottom: 40px;">
+                <p style="color: var(--text-muted); line-height: 1.8; margin: 0; font-size: 0.95rem;">{{ licenciatura.descricaoCurso }}</p>
+            </div>
+            {% endif %}
+
+            <!-- UNIDADES CURRICULARES POR ANO -->
+            <h4 style="color: #ffffff; font-size: 1rem; font-weight: 900; margin: 0 0 24px 0; text-transform: uppercase; letter-spacing: 1px;">Unidades Curriculares</h4>
+
+            {% regroup licenciatura.unidades_curriculares.all|dictsort:"ano" by ano as ucs_por_ano %}
+            {% for ano_grupo in ucs_por_ano %}
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+                    <div style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--purple)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 900; color: white; flex-shrink: 0;">
+                        {{ ano_grupo.grouper }}º
+                    </div>
+                    <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                        {{ ano_grupo.grouper }}º Ano
+                    </span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px;">
+                    {% for uc in ano_grupo.list %}
+                    <div class="uc-card">
+                        <div class="uc-card-top">
+                            <div>
+                                <span class="uc-id">{{ uc.idUC }}</span>
+                                <h4 class="uc-nome">{{ uc.nomeUC }}</h4>
+                            </div>
+                            <div class="uc-ects">{{ uc.creditosUC }}<small>ECTS</small></div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                            <span style="color: var(--text-muted); font-size: 0.72rem;">Semestre {{ uc.semestre }}</span>
+                        </div>
+
+                        {% with docentes=uc.equipa_docente.all %}
+                        {% if docentes %}
+                        <div class="uc-docentes">
+                            {% for d in docentes %}
+                            <span class="uc-docente-tag">
+                                👤 {{ d.nomeDocente }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+
+                        {% if uc.linkUC %}
+                        <a href="{{ uc.linkUC }}" target="_blank" class="uc-link">Ver UC →</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 60px; color: var(--text-muted);">
+        Nenhuma licenciatura encontrada com o nome "Informática de Gestão".
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

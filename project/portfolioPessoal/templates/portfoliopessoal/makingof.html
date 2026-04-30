@@ -1,40 +1,79 @@
 {% extends "portfoliopessoal/base.html" %}
-
+{% load markdownify %}
 {% block content %}
-<h2>🎬 Making Of - Diário de Desenvolvimento</h2>
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
 
-<section>
-    {% for log in logs %}
-    <article style="border-left: 5px solid #2563eb; padding-left: 20px;">
-        <header>
-            <h3>Projeto: {{ log.projeto.nomeProjeto }}</h3>
-            <h4>Etapa: {{ log.etapas }}</h4>
-        </header>
+    <a href="{% url 'sobre' %}" class="btn-back">← Voltar ao Sobre</a>
 
-        <div style="margin: 15px 0;">
-            <p><strong>Decisões Tomadas:</strong><br>{{ log.descricaoDecisoes }}</p>
-            <p><strong>Justificação:</strong><br>{{ log.justificacaoDecisoes }}</p>
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Making <span>Of</span></h2>
+        <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto;">
+            Diário de desenvolvimento — decisões, erros e soluções de cada etapa do projeto.
+        </p>
+    </div>
+
+    <div class="makingof-list">
+        {% for log in logs %}
+        <div class="makingof-card">
+
+            <div class="makingof-header">
+                <div>
+                    <span style="color: var(--accent); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">
+                        Projeto: {{ log.projeto.nomeProjeto }}
+                    </span>
+                    <span class="makingof-etapa">{{ log.etapas }}</span>
+                </div>
+                {% if log.registos %}
+                <a href="{{ log.registos.url }}" target="_blank" title="Ver imagem completa">
+                    <img src="{{ log.registos.url }}" alt="Registo {{ log.etapas }}" class="makingof-img" style="cursor: zoom-in;">
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="makingof-body">
+                {% if log.descricaoDecisoes %}
+                <div class="makingof-field">
+                    <span class="makingof-label">📋 Descrição das Decisões</span>
+                    <div class="makingof-text">{{ log.descricaoDecisoes|markdownify }}</div>
+                </div>
+                {% endif %}
+
+                {% if log.justificacaoDecisoes %}
+                <div class="makingof-field">
+                    <span class="makingof-label">💡 Justificação das Decisões</span>
+                    <div class="makingof-text">{{ log.justificacaoDecisoes|markdownify }}</div>
+                </div>
+                {% endif %}
+
+                {% if log.errosEncontrados %}
+                <div class="makingof-field makingof-field-error">
+                    <span class="makingof-label">⚠️ Erros Encontrados</span>
+                    <div class="makingof-text">{{ log.errosEncontrados|markdownify }}</div>
+                </div>
+                {% endif %}
+
+                {% if log.solucao %}
+                <div class="makingof-field makingof-field-solution">
+                    <span class="makingof-label">✅ Solução Aplicada</span>
+                    <div class="makingof-text">{{ log.solucao|markdownify }}</div>
+                </div>
+                {% endif %}
+
+                {% if log.usoIA %}
+                <div class="makingof-field makingof-field-ia">
+                    <span class="makingof-label">🤖 Uso de Inteligência Artificial</span>
+                    <div class="makingof-text">{{ log.usoIA|markdownify }}</div>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
-
-        <div style="background: #fef2f2; padding: 10px; border-radius: 5px; margin: 10px 0;">
-            <p style="color: #b91c1c;"><strong>⚠️ Erros Encontrados:</strong><br>{{ log.errosEncontrados }}</p>
-            <p style="color: #15803d;"><strong>✅ Solução:</strong><br>{{ log.solucao }}</p>
+        {% empty %}
+        <div style="text-align: center; padding: 60px;">
+            <p style="color: var(--text-muted);">Ainda não há registos de Making Of.</p>
         </div>
+        {% endfor %}
+    </div>
 
-        <div style="background: #eff6ff; padding: 10px; border-radius: 5px;">
-            <p><strong>🤖 Uso de IA:</strong><br>{{ log.usoIA }}</p>
-        </div>
-
-        {% if log.registos %}
-            <p style="margin-top: 10px;">
-                <a href="{{ log.registos.url }}" target="_blank">📄 Ver Ficheiro de Registo</a>
-            </p>
-        {% endif %}
-    </article>
-    {% empty %}
-    <p>Ainda não há registos de Making Of.</p>
-    {% endfor %}
-</section>
-
-<a href="{% url 'portfolio' %}">← Voltar ao Portfolio</a>
+</div>
 {% endblock %}

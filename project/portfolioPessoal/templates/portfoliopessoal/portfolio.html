@@ -1,25 +1,66 @@
 {% extends 'portfoliopessoal/base.html' %}
 {% load static %}
-
 {% block content %}
+
 <div class="hero-container">
     <div class="hero-content">
-        <span class="hero-tag">University Student</span>
+        <span class="hero-tag">University Student · ULHT · 2026</span>
         <h1 class="hero-title">Daniel Pinto</h1>
-        <h2 class="hero-subtitle">ESTE É O MEU PORTFOLIO PESSOAL<span>!</span></h2>
+        <h2 class="hero-subtitle">Portfolio <span>Pessoal</span></h2>
         <p class="hero-description">
-            Bem-vindo ao meu espaço digital. Aqui podes explorar os meus projetos, 
+            Bem-vindo ao meu espaço digital. Aqui podes explorar os meus projetos,
             as tecnologias que domino e o meu percurso académico.
         </p>
         <div class="hero-actions">
-            <a href="{% url 'projetos' %}" class="btn-hero-primary">Explorar Projetos</a>
-            <a href="{% url 'sobre' %}" class="btn-hero-secondary">Sobre Mim</a>
+            <a href="{% url 'projetos' %}" class="btn-hero-primary">Ver Projetos →</a>
+            <a href="{% url 'sobre' %}" class="btn-hero-secondary">Sobre a App</a>
         </div>
     </div>
-    
     <div class="hero-visual">
         <div class="blob-glow"></div>
         <div class="blob-main"></div>
     </div>
 </div>
+
+<!-- SECÇÃO DE PREVIEW -->
+<div class="home-sections">
+
+    <a href="{% url 'projetos' %}" class="home-card home-card-blue">
+        <div class="home-card-icon">💼</div>
+        <div class="home-card-content">
+            <h3>Projetos</h3>
+            <p>Trabalhos académicos e pessoais desenvolvidos ao longo do curso.</p>
+        </div>
+        <span class="home-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'competencias' %}" class="home-card home-card-purple">
+        <div class="home-card-icon">⚡</div>
+        <div class="home-card-content">
+            <h3>Competências</h3>
+            <p>Hard Skills e Soft Skills adquiridas ao longo da formação.</p>
+        </div>
+        <span class="home-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'sobre' %}#tecnologias" class="home-card home-card-cyan">
+        <div class="home-card-icon">🛠️</div>
+        <div class="home-card-content">
+            <h3>Tecnologias</h3>
+            <p>Ferramentas e linguagens que utilizo no desenvolvimento.</p>
+        </div>
+        <span class="home-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'sobre' %}" class="home-card home-card-gold">
+        <div class="home-card-icon">📄</div>
+        <div class="home-card-content">
+            <h3>Sobre a App</h3>
+            <p>Arquitetura MVT, modelação, tecnologias e Making Of.</p>
+        </div>
+        <span class="home-card-arrow">→</span>
+    </a>
+
+</div>
+
 {% endblock %}
