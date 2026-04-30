@@ -7,6 +7,9 @@ urlpatterns = [
     path('sobre/', views.sobre_view, name='sobre'),
     path('gestao/', views.admin_dashboard_view, name='admin_dashboard'),
     path('percurso/', views.percurso_view, name='percurso'),
+    
+    # PERFIL DO DOCENTE (NOVO)
+    path('docente/<str:id>/', views.detalhe_docente_view, name='detalhe_docente'),
 
     # PROJETOS (CRUD)
     path('projetos/', views.projetos_view, name='projetos'),

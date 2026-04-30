@@ -6,9 +6,12 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Os Meus <span>Projetos</span></h2>
+        
+        {% if request.user.is_staff %}
         <a href="{% url 'novo_projeto' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">
             + Adicionar Projeto
         </a>
+        {% endif %}
     </div>
 
     <section class="project-grid">
@@ -35,10 +38,12 @@
                 <p class="p-year-row">📅 Ano: {{ p.anoRealizacao }}</p>
             </div>
 
+            {% if request.user.is_staff %}
             <div class="p-card-actions">
                 <a href="{% url 'editar_projeto' p.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_projeto' p.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
+            {% endif %}
 
         </article>
         {% empty %}

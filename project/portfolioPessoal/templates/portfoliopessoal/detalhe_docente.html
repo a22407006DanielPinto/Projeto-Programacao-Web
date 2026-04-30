@@ -1,0 +1,69 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out forwards; max-width: 850px; margin: 0 auto;">
+
+    <a href="javascript:history.back()" class="btn-back">← Voltar</a>
+
+    <div class="glass-form-container" style="margin-top: 30px; padding: 40px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <div style="border-bottom: 1px solid var(--border); padding-bottom: 20px; display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+            <div style="width: 80px; height: 80px; border-radius: 20px; background: linear-gradient(135deg, var(--accent), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 0 20px var(--accent-glow);">
+                👤
+            </div>
+            <div style="flex: 1;">
+                <span style="color: var(--accent); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">ID: {{ docente.idDocente }}</span>
+                <h2 style="margin: 5px 0 10px 0; font-size: 2rem; font-weight: 900; color: #ffffff;">{{ docente.nomeDocente }}</h2>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    {% if docente.email %}
+                    <a href="mailto:{{ docente.email }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                        ✉️ {{ docente.email }}
+                    </a>
+                    {% endif %}
+                    
+                    {% if docente.linkPerfilUniversidade %}
+                    <a href="{{ docente.linkPerfilUniversidade }}" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; transition: 0.2s;" onmouseover="this.style.color='var(--purple)'" onmouseout="this.style.color='var(--text-muted)'">
+                        🔗 Perfil Universitário ↗
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-weight: 900; margin: 20px 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">📚 Unidades Curriculares</h4>
+            
+            {% if docente.ucs_lecionadas.all %}
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for uc in docente.ucs_lecionadas.all %}
+                <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 10px 16px; border-radius: 12px; display: flex; flex-direction: column;">
+                    <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 700;">{{ uc.idUC }}</span>
+                    <span style="color: #ffffff; font-size: 0.9rem; font-weight: 800;">{{ uc.nomeUC }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Não há UCs associadas a este docente.</p>
+            {% endif %}
+        </div>
+
+        <div>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-weight: 900; margin: 20px 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">🎓 TFCs Orientados</h4>
+            
+            {% if docente.tfcs_orientados.all %}
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for tfc in docente.tfcs_orientados.all %}
+                <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); padding: 10px 16px; border-radius: 12px; display: flex; flex-direction: column;">
+                    <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 700;">Ano: {{ tfc.anoRealizacao }}</span>
+                    <span style="color: #ffffff; font-size: 0.9rem; font-weight: 800;">{{ tfc.tituloTFC }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Não há TFCs orientados por este docente registados.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

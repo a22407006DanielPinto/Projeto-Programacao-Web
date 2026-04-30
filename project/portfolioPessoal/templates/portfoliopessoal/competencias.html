@@ -4,8 +4,11 @@
     <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h2 class="hero-subtitle" style="margin: 0;">Minhas <span>Competências</span></h2>
+        <h2 class="hero-subtitle" style="margin: 0;">As <span>Minhas <span>Competências</span></h2>
+        
+        {% if request.user.is_staff %}
         <a href="{% url 'nova_competencia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar</a>
+        {% endif %}
     </div>
 
     <section class="project-grid">
@@ -33,10 +36,12 @@
                 {% endif %}
             </div>
 
+            {% if request.user.is_staff %}
             <div class="p-card-actions">
                 <a href="{% url 'editar_competencia' c.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_competencia' c.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
+            {% endif %}
 
         </article>
         {% empty %}
