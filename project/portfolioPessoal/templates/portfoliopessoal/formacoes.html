@@ -1,37 +1,41 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
+
+    {% if gestao %}
     <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    {% else %}
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
         <h2 class="hero-subtitle" style="margin: 0;">Percurso <span>Académico</span></h2>
+        {% if gestao %}
         <a href="{% url 'nova_formacao' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar Formação</a>
+        {% endif %}
     </div>
 
     <section class="formacao-list">
         {% for f in formacoes %}
         <article class="formacao-card">
-
             <div class="formacao-ano">
-                <span>{{ f.ano_conclusao }}</span>
+                <span>—</span>
             </div>
-
             <div class="formacao-connector">
                 <div class="formacao-dot"></div>
                 <div class="formacao-line"></div>
             </div>
-
             <div class="formacao-body">
                 <h3 class="formacao-titulo">{{ f.nomeFormacao }}</h3>
                 <p class="formacao-inst">{{ f.instituicao }}</p>
                 <p class="formacao-duracao">⏱ {{ f.duracaoFormacao }}</p>
             </div>
-
+            {% if gestao %}
             <div class="formacao-actions">
                 <a href="{% url 'editar_formacao' f.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_formacao' f.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
-
+            {% endif %}
         </article>
         {% empty %}
         <div style="text-align: center; padding: 50px;">

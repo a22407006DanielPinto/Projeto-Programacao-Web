@@ -1,0 +1,89 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out; max-width: 800px; margin: 0 auto;">
+
+    <a href="{% url 'lista_artigos' %}" class="btn-back">← Voltar aos Artigos</a>
+
+    <div class="sobre-section artigo-detalhe-header" style="margin-bottom: 30px;">
+        <div class="sobre-section-header" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+            <div class="artigo-card-meta">
+                <span class="artigo-autor-badge">✍️ {{ artigo.autor.username }}</span>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">{{ artigo.data_criacao|date:"d/m/Y \à\s H:i" }}</span>
+            </div>
+            <h2 style="margin: 0; font-size: 1.8rem; font-weight: 900; color: #ffffff; line-height: 1.3;">{{ artigo.titulo }}</h2>
+        </div>
+        <div class="sobre-section-body">
+
+            {% if artigo.fotografia %}
+            <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}"
+                 style="width: 100%; max-height: 420px; object-fit: cover; border-radius: 16px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+            {% endif %}
+
+            <p style="color: var(--text-muted); line-height: 1.95; font-size: 1rem; white-space: pre-line;">{{ artigo.texto }}</p>
+
+            {% if artigo.link_externo %}
+            <a href="{{ artigo.link_externo }}" target="_blank" class="btn-hero-primary"
+               style="padding: 10px 22px; font-size: 0.85rem; display: inline-block; margin-top: 24px;">
+                🔗 Ver fonte externa →
+            </a>
+            {% endif %}
+
+            <div style="display: flex; align-items: center; gap: 14px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap;">
+                <a href="{% url 'like_artigo' artigo.id %}" class="like-btn">
+                    ❤️ {{ artigo.total_likes }} Gosto{{ artigo.total_likes|pluralize:"s" }}
+                </a>
+                <span style="color: var(--text-muted); font-size: 0.85rem;">💬 {{ comentarios.count }} comentário{{ comentarios.count|pluralize:"s" }}</span>
+                {% if request.user == artigo.autor %}
+                <a href="{% url 'editar_artigo' artigo.id %}" class="p-btn-edit" style="font-size: 0.85rem; margin-left: auto;">✎ Editar</a>
+                <a href="{% url 'apagar_artigo' artigo.id %}" class="p-btn-delete" style="font-size: 0.85rem;">🗑 Apagar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="sobre-section">
+        <div class="sobre-section-header">
+            <span class="sobre-section-num">💬</span>
+            <h3 class="sobre-section-title">Comentários ({{ comentarios.count }})</h3>
+        </div>
+        <div class="sobre-section-body">
+
+            {% for comentario in comentarios %}
+            <div class="comentario-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="color: var(--accent); font-weight: 800; font-size: 0.85rem;">{{ comentario.autor.username }}</span>
+                    <span style="color: var(--text-muted); font-size: 0.72rem; background: rgba(255,255,255,0.03); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border);">{{ comentario.data_criacao|date:"d/m/Y H:i" }}</span>
+                </div>
+                <p style="margin: 0; color: #cbd5e1; font-size: 0.92rem; line-height: 1.65;">{{ comentario.texto }}</p>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 30px; color: var(--text-muted);">
+                <div style="font-size: 2rem; margin-bottom: 8px;">💬</div>
+                <p style="margin: 0; font-size: 0.9rem;">Ainda não há comentários. Sê o primeiro!</p>
+            </div>
+            {% endfor %}
+
+            {% if request.user.is_authenticated %}
+            <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-muted); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">Deixa um comentário</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-field-group">
+                        <div class="field-container">
+                            <textarea name="texto" rows="3" required placeholder="Partilha a tua opinião..." style="resize: vertical;"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-save-main" style="padding: 12px 28px;">Publicar comentário →</button>
+                </form>
+            </div>
+            {% else %}
+            <div style="margin-top: 24px; padding: 20px; background: rgba(59,130,246,0.04); border: 1px dashed rgba(59,130,246,0.25); border-radius: 14px; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+                    <a href="{% url 'login' %}" style="color: var(--accent); font-weight: 800;">Faz login</a> para deixares um comentário.
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

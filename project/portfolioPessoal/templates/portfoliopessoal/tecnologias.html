@@ -1,16 +1,18 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    
+
     {% if gestao %}
-        <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
     {% else %}
-        <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
     {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h2 class="hero-subtitle" style="margin: 0;">Tecnologias </span></h2>
-        
+        <div>
+            <h2 class="hero-subtitle" style="margin: 0 0 6px 0;">Meu <span>Arsenal Tech</span></h2>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">{{ tecnologias|length }} tecnologia{{ tecnologias|length|pluralize:"s" }} no arsenal</p>
+        </div>
         {% if gestao %}
         <a href="{% url 'nova_tecnologia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar Tecnologia</a>
         {% endif %}
@@ -18,8 +20,7 @@
 
     <section class="tech-grid">
         {% for t in tecnologias %}
-        <article class="tech-card">
-
+        <article class="tech-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
             <div class="tech-logo-wrap">
                 {% if t.logotipo %}
                     <img src="{{ t.logotipo.url }}" alt="{{ t.nomeTecnologia }}" class="tech-logo">
@@ -27,29 +28,33 @@
                     <div class="tech-logo-placeholder">{{ t.nomeTecnologia|slice:":2"|upper }}</div>
                 {% endif %}
             </div>
-
             <div class="tech-info">
                 <h3 class="tech-name">{{ t.nomeTecnologia }}</h3>
                 <span class="tech-type">{{ t.tipoTecnologia }}</span>
-
                 <div class="tech-level-wrap">
                     <div class="tech-level-bar">
                         <div class="tech-level-fill" style="width: {{ t.classificacao }}0%"></div>
                     </div>
                     <span class="tech-level-label">{{ t.classificacao }}/10</span>
                 </div>
+                {% if t.linkSite %}
+                <a href="{{ t.linkSite }}" target="_blank"
+                   style="display: inline-flex; align-items: center; gap: 4px; color: var(--text-muted); font-size: 0.72rem; font-weight: 600; text-decoration: none; margin-top: 6px; transition: color 0.2s;"
+                   onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                    🔗 Site oficial
+                </a>
+                {% endif %}
             </div>
-
             {% if gestao %}
             <div class="tech-actions">
                 <a href="{% url 'editar_tecnologia' t.nomeTecnologia %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_tecnologia' t.nomeTecnologia %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
             {% endif %}
-
         </article>
         {% empty %}
-        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 50px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">🛠️</div>
             <p style="color: var(--text-muted);">Ainda não tens tecnologias registadas.</p>
         </div>
         {% endfor %}

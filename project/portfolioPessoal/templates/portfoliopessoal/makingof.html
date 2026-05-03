@@ -14,22 +14,25 @@
 
     <div class="makingof-list">
         {% for log in logs %}
-        <div class="makingof-card">
-
+        <div class="makingof-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
             <div class="makingof-header">
-                <div>
-                    <span style="color: var(--accent); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">
-                        Projeto: {{ log.projeto.nomeProjeto }}
+                <div style="flex: 1;">
+                    <span style="color: var(--accent); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                        <span style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block;"></span>
+                        {{ log.projeto.nomeProjeto }}
                     </span>
                     <span class="makingof-etapa">{{ log.etapas }}</span>
                 </div>
                 {% if log.registos %}
                 <a href="{{ log.registos.url }}" target="_blank" title="Ver imagem completa">
-                    <img src="{{ log.registos.url }}" alt="Registo {{ log.etapas }}" class="makingof-img" style="cursor: zoom-in;">
+                    <img src="{{ log.registos.url }}" alt="Registo {{ log.etapas }}" class="makingof-img"
+                         style="cursor: zoom-in; transition: transform 0.3s; border-radius: 12px;"
+                         onmouseover="this.style.transform='scale(1.03)'"
+                         onmouseout="this.style.transform='scale(1)'">
                 </a>
                 {% endif %}
             </div>
-
+            
             <div class="makingof-body">
                 {% if log.descricaoDecisoes %}
                 <div class="makingof-field">
@@ -69,7 +72,8 @@
 
         </div>
         {% empty %}
-        <div style="text-align: center; padding: 60px;">
+        <div style="text-align: center; padding: 80px 60px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">🎬</div>
             <p style="color: var(--text-muted);">Ainda não há registos de Making Of.</p>
         </div>
         {% endfor %}

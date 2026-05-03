@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="hero-container">
-    <div class="hero-content">
+    <div class="hero-content anim-slide-left">
         <span class="hero-tag">University Student · ULHT · 2026</span>
         <h1 class="hero-title">Daniel Pinto</h1>
         <h2 class="hero-subtitle">Portfolio <span>Pessoal</span></h2>
@@ -16,16 +16,14 @@
             <a href="{% url 'sobre' %}" class="btn-hero-secondary">Sobre a App</a>
         </div>
     </div>
-    <div class="hero-visual">
+    <div class="hero-visual anim-slide-right">
         <div class="blob-glow"></div>
         <div class="blob-main"></div>
     </div>
 </div>
 
-<!-- SECÇÃO DE PREVIEW -->
 <div class="home-sections">
-
-    <a href="{% url 'projetos' %}" class="home-card home-card-blue">
+    <a href="{% url 'projetos' %}" class="home-card home-card-blue anim-scale anim-delay-1">
         <div class="home-card-icon">💼</div>
         <div class="home-card-content">
             <h3>Projetos</h3>
@@ -33,8 +31,7 @@
         </div>
         <span class="home-card-arrow">→</span>
     </a>
-
-    <a href="{% url 'competencias' %}" class="home-card home-card-purple">
+    <a href="{% url 'competencias' %}" class="home-card home-card-purple anim-scale anim-delay-2">
         <div class="home-card-icon">⚡</div>
         <div class="home-card-content">
             <h3>Competências</h3>
@@ -42,8 +39,7 @@
         </div>
         <span class="home-card-arrow">→</span>
     </a>
-
-    <a href="{% url 'sobre' %}#tecnologias" class="home-card home-card-cyan">
+    <a href="{% url 'tecnologias' %}" class="home-card home-card-cyan anim-scale anim-delay-3">
         <div class="home-card-icon">🛠️</div>
         <div class="home-card-content">
             <h3>Tecnologias</h3>
@@ -51,16 +47,14 @@
         </div>
         <span class="home-card-arrow">→</span>
     </a>
-
-    <a href="{% url 'sobre' %}" class="home-card home-card-gold">
-        <div class="home-card-icon">📄</div>
+    <a href="{% url 'lista_artigos' %}" class="home-card home-card-gold anim-scale anim-delay-4">
+        <div class="home-card-icon">📰</div>
         <div class="home-card-content">
-            <h3>Sobre a App</h3>
-            <p>Arquitetura MVT, modelação, tecnologias e Making Of.</p>
+            <h3>Artigos</h3>
+            <p>Publicações sobre tecnologia, soft-skills e desenvolvimento.</p>
         </div>
         <span class="home-card-arrow">→</span>
     </a>
-
 </div>
 
 {% endblock %}

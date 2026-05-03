@@ -1057,3 +1057,369 @@ input[type="file"]::file-selector-button:hover { background: var(--accent) !impo
     transition: opacity 0.2s;
 }
 .uc-link:hover { opacity: 0.7; }
+
+/* --- 23. ANIMAÇÕES DE ENTRADA ESCALONADAS --- */
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); } 50% { box-shadow: 0 0 20px 4px rgba(59,130,246,0.2); } }
+
+.anim-slide-left { animation: slideInLeft 0.6s ease-out both; }
+.anim-slide-right { animation: slideInRight 0.6s ease-out both; }
+.anim-scale { animation: scaleIn 0.5s ease-out both; }
+
+.anim-delay-1 { animation-delay: 0.1s; }
+.anim-delay-2 { animation-delay: 0.2s; }
+.anim-delay-3 { animation-delay: 0.3s; }
+.anim-delay-4 { animation-delay: 0.4s; }
+.anim-delay-5 { animation-delay: 0.5s; }
+.anim-delay-6 { animation-delay: 0.6s; }
+
+/* --- 24. PÁGINA HERO MELHORADA --- */
+.hero-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-title {
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: none;
+}
+
+.btn-hero-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-hero-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-hero-primary:hover::after { left: 100%; }
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(59,130,246,0.4); }
+
+/* --- 25. CARDS DE PROJETOS MELHORADOS --- */
+.p-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.p-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.p-card:hover::before { transform: scaleX(1); }
+
+.p-card:hover .p-info h3 {
+    background: linear-gradient(135deg, #ffffff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.p-img-container img {
+    transition: transform 0.5s ease;
+}
+
+.p-card:hover .p-img-container img {
+    transform: scale(1.05);
+}
+
+/* --- 26. TECH CARDS MELHORADOS --- */
+.tech-card {
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+.tech-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.03), rgba(168,85,247,0.03));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tech-card:hover::after { opacity: 1; }
+
+.tech-card:hover .tech-logo {
+    filter: drop-shadow(0 0 16px var(--accent-glow));
+    transform: scale(1.1) rotate(-3deg);
+    transition: all 0.3s ease;
+}
+
+.tech-card:hover .tech-logo-placeholder {
+    transform: scale(1.1) rotate(-3deg);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.tech-level-fill {
+    animation: none;
+    transition: width 1s ease;
+}
+
+/* --- 27. PÁGINA DE ARTIGOS MELHORADA --- */
+.artigo-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.artigo-autor-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.artigo-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.artigo-stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.artigo-stat:hover { color: #ffffff; }
+
+/* --- 28. LIKE BUTTON ANIMADO --- */
+.like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.25);
+    color: #ef4444;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.like-btn:hover {
+    background: rgba(239,68,68,0.18);
+    border-color: rgba(239,68,68,0.5);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(239,68,68,0.2);
+}
+
+.like-btn:active { transform: scale(0.97); }
+
+/* --- 29. COMENTÁRIOS MELHORADOS --- */
+.comentario-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.comentario-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--accent), var(--purple));
+    border-radius: 3px 0 0 3px;
+}
+
+.comentario-card:hover {
+    border-color: rgba(59,130,246,0.2);
+    background: rgba(59,130,246,0.02);
+}
+
+/* --- 30. PÁGINA SOBRE MELHORADA --- */
+.sobre-section {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sobre-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.sobre-section-header {
+    cursor: default;
+    transition: background 0.3s;
+}
+
+.sobre-section:hover .sobre-section-header {
+    background: rgba(59,130,246,0.06);
+}
+
+/* --- 31. MAKINGOF MELHORADO --- */
+.makingof-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.makingof-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+
+.makingof-field {
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.makingof-field:hover {
+    border-color: rgba(59,130,246,0.25);
+}
+
+/* --- 32. INPUTS COM FOCO MELHORADO --- */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* --- 33. NAV MELHORADO --- */
+nav a {
+    position: relative;
+    padding-bottom: 3px;
+}
+
+nav a:not(.nav-gestao)::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+nav a:not(.nav-gestao):hover::after { width: 100%; }
+
+nav a.nav-gestao {
+    transition: all 0.25s ease;
+}
+
+nav a.nav-gestao:hover {
+    background: var(--accent);
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+}
+
+/* --- 34. SCROLL SUAVE E SCROLLBAR --- */
+html { scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.6); }
+
+/* --- 35. SELEÇÃO DE TEXTO --- */
+::selection {
+    background: rgba(59,130,246,0.3);
+    color: #ffffff;
+}
+
+/* --- 36. HOME CARDS MELHORADOS --- */
+.home-card {
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-card:hover {
+    transform: translateY(-6px) scale(1.01);
+}
+
+.home-card-icon {
+    transition: transform 0.3s ease;
+    font-size: 2rem;
+}
+
+.home-card:hover .home-card-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+/* --- 37. BTN BACK MELHORADO --- */
+.btn-back {
+    position: relative;
+    padding: 8px 0;
+}
+
+.btn-back::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.btn-back:hover::before { width: 100%; }
+
+/* --- 38. DASH CARDS PULSE --- */
+.dash-card:hover {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* --- 39. PÁGINA DE ARTIGOS — HEADER DO DETALHE --- */
+.artigo-detalhe-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.artigo-detalhe-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 36px; right: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--purple), transparent);
+}

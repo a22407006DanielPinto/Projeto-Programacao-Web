@@ -1,0 +1,39 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 60px; animation: fadeInUp 0.8s ease-out; max-width: 480px; margin: 0 auto;">
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Link <span>Mágico</span></h2>
+        <p style="color: var(--text-muted);">Recebe um link no teu email para entrar sem password.</p>
+    </div>
+
+    <div class="glass-form-container" style="padding: 40px;">
+
+        {% if mensagem %}
+        <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; color: #22c55e; font-size: 0.9rem; font-weight: 600;">
+            ✅ {{ mensagem }}
+        </div>
+        {% endif %}
+
+        {% if erro %}
+        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; color: #ef4444; font-size: 0.9rem; font-weight: 600;">
+            ⚠️ {{ erro }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-field-group">
+                <label>Email</label>
+                <div class="field-container">
+                    <input type="email" name="email" required placeholder="O teu email">
+                </div>
+            </div>
+            <div class="form-footer">
+                <a href="{% url 'login' %}" class="btn-cancel">← Voltar</a>
+                <button type="submit" class="btn-save-main">✉️ Enviar Link</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

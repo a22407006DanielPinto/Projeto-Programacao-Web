@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daniel Pinto | Portfolio pessoal</title>
     
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=23.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=24.0">
 
     <style>
         .styled-form ul, .field-container ul, input[type="checkbox"], label[for$="-clear_id"] { 
@@ -22,9 +22,18 @@
             <a href="{% url 'portfolio' %}">Início</a>
             <a href="{% url 'percurso' %}">Percurso</a>
             <a href="{% url 'projetos' %}">Projetos</a>
-            <a href="{% url 'tecnologias' %}">Tecnologias</a> <a href="{% url 'competencias' %}">Competências</a>
+            <a href="{% url 'tecnologias' %}">Tecnologias</a>
+            <a href="{% url 'competencias' %}">Competências</a>
+            <a href="{% url 'lista_artigos' %}">Artigos</a>
             <a href="{% url 'sobre' %}">Sobre</a>
-            <a href="{% url 'admin_dashboard' %}" class="nav-gestao">Painel</a>
+            {% if is_gestor_global %}
+                <a href="{% url 'admin_dashboard' %}" class="nav-gestao">Painel</a>
+                <a href="{% url 'logout' %}" class="nav-gestao" style="border-color: #ef4444; color: #ef4444;">Sair</a>
+            {% elif request.user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-gestao" style="border-color: #ef4444; color: #ef4444;">Sair</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-gestao">Login</a>
+            {% endif %}
         </nav>
     </header>
 

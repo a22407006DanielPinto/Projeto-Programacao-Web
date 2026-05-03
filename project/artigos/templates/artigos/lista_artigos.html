@@ -1,0 +1,61 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
+
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+        <div>
+            <h2 class="hero-subtitle" style="margin: 0 0 6px 0;">Artigos <span>Tecnológicos</span></h2>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Publicações sobre tecnologia e soft-skills</p>
+        </div>
+        {% if is_autor %}
+        <a href="{% url 'novo_artigo' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Novo Artigo</a>
+        {% endif %}
+    </div>
+
+    <div class="project-grid">
+        {% for artigo in artigos %}
+        <article class="p-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
+            {% if artigo.fotografia %}
+            <div class="p-img-container">
+                <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}">
+            </div>
+            {% else %}
+            <div class="p-img-container">
+                <div class="p-placeholder" style="background: linear-gradient(135deg, #0f172a, #1e293b); flex-direction: column; gap: 8px;">
+                    <span style="font-size: 2.5rem;">📰</span>
+                </div>
+            </div>
+            {% endif %}
+            <div class="p-info">
+                <div class="artigo-card-meta" style="margin-bottom: 10px;">
+                    <span class="artigo-autor-badge">✍️ {{ artigo.autor.username }}</span>
+                    <span style="color: var(--text-muted); font-size: 0.75rem;">{{ artigo.data_criacao|date:"d/m/Y" }}</span>
+                </div>
+                <h3>{{ artigo.titulo }}</h3>
+                <p class="p-text">{{ artigo.texto|truncatewords:25 }}</p>
+                <div class="artigo-stats">
+                    <span class="artigo-stat">❤️ {{ artigo.total_likes }}</span>
+                    <span class="artigo-stat">💬 {{ artigo.comentarios.count }}</span>
+                </div>
+            </div>
+            <div class="p-card-actions">
+                <a href="{% url 'detalhe_artigo' artigo.id %}" class="p-btn-edit">Ler artigo →</a>
+                {% if request.user == artigo.autor %}
+                <a href="{% url 'apagar_artigo' artigo.id %}" class="p-btn-delete">🗑 Apagar</a>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 50px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">📰</div>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Ainda não há artigos publicados.</p>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'novo_artigo' %}" class="btn-hero-primary" style="padding: 12px 24px; font-size: 0.85rem;">Publicar o primeiro artigo →</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

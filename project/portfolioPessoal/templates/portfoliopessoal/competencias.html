@@ -1,16 +1,18 @@
 {% extends 'portfoliopessoal/base.html' %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    
+
     {% if gestao %}
-        <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
     {% else %}
-        <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
     {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h2 class="hero-subtitle" style="margin: 0;">As <span>Minhas <span>Competências</span></h2>
-        
+        <div>
+            <h2 class="hero-subtitle" style="margin: 0 0 6px 0;">As Minhas <span>Competências</span></h2>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">{{ competencias|length }} competência{{ competencias|length|pluralize:"s" }} registada{{ competencias|length|pluralize:"s" }}</p>
+        </div>
         {% if gestao %}
         <a href="{% url 'nova_competencia' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">+ Adicionar</a>
         {% endif %}
@@ -18,12 +20,19 @@
 
     <section class="project-grid">
         {% for c in competencias %}
-        <article class="p-card">
-
+        <article class="p-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
             <div class="p-info">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="
+                        background: {% if c.categoria == 'Hard Skill' %}rgba(59,130,246,0.12){% else %}rgba(168,85,247,0.12){% endif %};
+                        border: 1px solid {% if c.categoria == 'Hard Skill' %}rgba(59,130,246,0.3){% else %}rgba(168,85,247,0.3){% endif %};
+                        color: {% if c.categoria == 'Hard Skill' %}var(--accent){% else %}var(--purple){% endif %};
+                        padding: 3px 10px; border-radius: 20px;
+                        font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                        {{ c.categoria }}
+                    </span>
+                </div>
                 <h3>{{ c.nomeCompetencia }}</h3>
-                <small style="color: var(--accent); font-size: 0.8rem; display: block; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{{ c.categoria }}</small>
-
                 <p class="p-text" id="text-{{ c.id }}">{{ c.descricaoCompetencia }}</p>
                 <button class="p-expand-btn" onclick="toggleDesc('{{ c.id }}')">
                     <span id="label-{{ c.id }}">Ver mais</span>
@@ -31,26 +40,28 @@
                         <path d="m6 9 6 6 6-6"/>
                     </svg>
                 </button>
-
                 {% if c.tecnologias.all %}
-                <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
+                <div style="margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px;">
                     {% for t in c.tecnologias.all %}
-                    <span style="background: rgba(59,130,246,0.1); border: 1px solid var(--accent); color: #fff; padding: 3px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">{{ t.nomeTecnologia }}</span>
+                    <span style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color: var(--accent); padding: 3px 10px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; transition: 0.2s;"
+                          onmouseover="this.style.background='rgba(59,130,246,0.18)'"
+                          onmouseout="this.style.background='rgba(59,130,246,0.08)'">
+                        {{ t.nomeTecnologia }}
+                    </span>
                     {% endfor %}
                 </div>
                 {% endif %}
             </div>
-
             {% if gestao %}
             <div class="p-card-actions">
                 <a href="{% url 'editar_competencia' c.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_competencia' c.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
             {% endif %}
-
         </article>
         {% empty %}
-        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 50px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">⚡</div>
             <p style="color: var(--text-muted);">Ainda não tens competências registadas.</p>
         </div>
         {% endfor %}
@@ -62,9 +73,7 @@ function toggleDesc(id) {
     const text = document.getElementById('text-' + id);
     const label = document.getElementById('label-' + id);
     const arrow = document.getElementById('arrow-' + id);
-
     text.classList.toggle('is-expanded');
-
     if (text.classList.contains('is-expanded')) {
         label.innerText = 'Fechar';
         arrow.style.transform = 'rotate(180deg)';

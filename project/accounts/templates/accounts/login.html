@@ -1,0 +1,45 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 60px; animation: fadeInUp 0.8s ease-out; max-width: 480px; margin: 0 auto;">
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Entrar <span>na Conta</span></h2>
+        <p style="color: var(--text-muted);">Acesso reservado ao gestor do portfolio.</p>
+    </div>
+
+    <div class="glass-form-container" style="padding: 40px;">
+        {% if erro %}
+        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; color: #ef4444; font-size: 0.9rem; font-weight: 600;">
+            ⚠️ {{ erro }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-field-group">
+                <label>Username</label>
+                <div class="field-container">
+                    <input type="text" name="username" required placeholder="O teu username">
+                </div>
+            </div>
+            <div class="form-field-group">
+                <label>Password</label>
+                <div class="field-container">
+                    <input type="password" name="password" required placeholder="A tua password">
+                </div>
+            </div>
+            <div class="form-footer">
+                <a href="{% url 'registo' %}" class="btn-cancel">Criar conta</a>
+                <button type="submit" class="btn-save-main">Entrar →</button>
+            </div>
+        </form>
+
+        <div style="margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">Preferes entrar sem password?</p>
+            <a href="{% url 'magic_link' %}" class="btn-hero-primary" style="padding: 12px 24px; font-size: 0.85rem;">
+                ✉️ Entrar com Link Mágico
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

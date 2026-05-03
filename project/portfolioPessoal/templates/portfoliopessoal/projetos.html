@@ -2,16 +2,18 @@
 {% load static %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    
+
     {% if gestao %}
-        <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn-back">← Voltar ao Painel</a>
     {% else %}
-        <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
+    <a href="{% url 'portfolio' %}" class="btn-back">← Voltar ao Início</a>
     {% endif %}
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h2 class="hero-subtitle" style="margin: 0;">Os Meus <span>Projetos</span></h2>
-        
+        <div>
+            <h2 class="hero-subtitle" style="margin: 0 0 6px 0;">Os Meus <span>Projetos</span></h2>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">{{ projetos|length }} projeto{{ projetos|length|pluralize:"s" }} no portfolio</p>
+        </div>
         {% if gestao %}
         <a href="{% url 'novo_projeto' %}" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.8rem;">
             + Adicionar Projeto
@@ -21,17 +23,21 @@
 
     <section class="project-grid">
         {% for p in projetos %}
-        <article class="p-card">
-
+        <article class="p-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
             <div class="p-img-container">
                 {% if p.fotoProjeto %}
                     <img src="{{ p.fotoProjeto.url }}" alt="{{ p.nomeProjeto }}">
                 {% else %}
-                    <div class="p-placeholder">Sem Imagem</div>
+                    <div class="p-placeholder" style="background: linear-gradient(135deg, #0f172a, #1e293b); flex-direction: column; gap: 8px;">
+                        <span style="font-size: 2rem;">💼</span>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Sem imagem</span>
+                    </div>
                 {% endif %}
             </div>
-
             <div class="p-info">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">{{ p.anoRealizacao }}</span>
+                </div>
                 <h3>{{ p.nomeProjeto }}</h3>
                 <p class="p-text" id="text-{{ p.id }}">{{ p.descricaoProjeto }}</p>
                 <button class="p-expand-btn" onclick="toggleProjectDesc('{{ p.id }}')">
@@ -40,20 +46,24 @@
                         <path d="m6 9 6 6 6-6"/>
                     </svg>
                 </button>
-                <p class="p-year-row">📅 Ano: {{ p.anoRealizacao }}</p>
+                {% if p.linkGitHub %}
+                <a href="{{ p.linkGitHub }}" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; text-decoration: none; margin-top: 6px; transition: color 0.2s;"
+                   onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
+                    🔗 Ver no GitHub
+                </a>
+                {% endif %}
             </div>
-
             {% if gestao %}
             <div class="p-card-actions">
                 <a href="{% url 'editar_projeto' p.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_projeto' p.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
             {% endif %}
-
         </article>
         {% empty %}
-        <div class="card-content" style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-            <p style="color: var(--text-muted);">Ainda não tens projetos registados.</p>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 50px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">💼</div>
+            <p style="color: var(--text-muted); font-size: 1rem;">Ainda não tens projetos registados.</p>
         </div>
         {% endfor %}
     </section>
@@ -64,9 +74,7 @@ function toggleProjectDesc(id) {
     const text = document.getElementById('text-' + id);
     const label = document.getElementById('label-' + id);
     const arrow = document.getElementById('arrow-' + id);
-
     text.classList.toggle('is-expanded');
-
     if (text.classList.contains('is-expanded')) {
         label.innerText = 'Fechar';
         arrow.style.transform = 'rotate(180deg)';

@@ -1,0 +1,31 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 60px; animation: fadeInUp 0.8s ease-out; max-width: 480px; margin: 0 auto;">
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 class="hero-subtitle" style="margin-bottom: 10px;">Criar <span>Conta</span></h2>
+        <p style="color: var(--text-muted);">Regista-te para gerir o portfolio.</p>
+    </div>
+
+    <div class="glass-form-container" style="padding: 40px;">
+        <form method="POST" class="styled-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-field-group">
+                <label>{{ field.label }}</label>
+                <div class="field-container">
+                    {{ field }}
+                </div>
+                {% if field.errors %}
+                <span style="color: #ef4444; font-size: 0.8rem;">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="form-footer">
+                <a href="{% url 'login' %}" class="btn-cancel">Já tenho conta</a>
+                <button type="submit" class="btn-save-main">Registar →</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

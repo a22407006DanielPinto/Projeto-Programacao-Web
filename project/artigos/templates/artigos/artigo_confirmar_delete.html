@@ -1,0 +1,17 @@
+{% extends 'portfoliopessoal/base.html' %}
+{% block content %}
+<div style="padding-top: 60px; max-width: 500px; margin: 0 auto; text-align: center; animation: fadeInUp 0.8s ease-out;">
+    <h2 class="hero-subtitle" style="margin-bottom: 20px;">Apagar <span>Artigo</span></h2>
+    <p style="color: var(--text-muted); margin-bottom: 30px;">
+        Tens a certeza que queres eliminar permanentemente o artigo:<br>
+        <strong style="color: white;">{{ artigo.titulo }}</strong>
+    </p>
+    <form method="POST" style="display: flex; justify-content: center; gap: 16px;">
+        {% csrf_token %}
+        <button type="submit" class="btn-save-main" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            Sim, Eliminar
+        </button>
+        <a href="{% url 'lista_artigos' %}" class="btn-cancel">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
