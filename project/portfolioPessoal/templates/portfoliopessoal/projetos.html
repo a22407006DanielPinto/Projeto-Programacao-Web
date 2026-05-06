@@ -23,7 +23,18 @@
 
     <section class="project-grid">
         {% for p in projetos %}
-        <article class="p-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms;">
+        <article class="p-card anim-scale" style="animation-delay: {{ forloop.counter0 }}00ms; cursor: pointer;"
+                 onclick="abrirModal(
+                     '{{ p.nomeProjeto|escapejs }}',
+                     '{{ p.descricaoProjeto|escapejs }}',
+                     '{{ p.anoRealizacao }}',
+                     '{% if p.fotoProjeto %}{{ p.fotoProjeto.url }}{% endif %}',
+                     '{% if p.linkGitHub %}{{ p.linkGitHub }}{% endif %}',
+                     '{% if p.linksVideo %}{{ p.linksVideo }}{% endif %}',
+                     '{% if p.uc %}{{ p.uc.nomeUC|escapejs }}{% endif %}',
+                     [{% for t in p.tecnologias.all %}'{{ t.nomeTecnologia|escapejs }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+                     [{% for c in p.competencias.all %}'{{ c.nomeCompetencia|escapejs }}'{% if not forloop.last %},{% endif %}{% endfor %}]
+                 )">
             <div class="p-img-container">
                 {% if p.fotoProjeto %}
                     <img src="{{ p.fotoProjeto.url }}" alt="{{ p.nomeProjeto }}">
@@ -33,28 +44,27 @@
                         <span style="font-size: 0.75rem; color: var(--text-muted);">Sem imagem</span>
                     </div>
                 {% endif %}
+                <div style="position: absolute; inset: 0; background: rgba(59,130,246,0); transition: 0.3s; display: flex; align-items: center; justify-content: center; opacity: 0;"
+                     class="p-hover-overlay">
+                    <span style="background: rgba(59,130,246,0.9); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Ver detalhes</span>
+                </div>
             </div>
             <div class="p-info">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                     <span style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">{{ p.anoRealizacao }}</span>
+                    {% if p.uc %}
+                    <span style="color: var(--text-muted); font-size: 0.72rem; font-weight: 600;">{{ p.uc.nomeUC }}</span>
+                    {% endif %}
                 </div>
                 <h3>{{ p.nomeProjeto }}</h3>
-                <p class="p-text" id="text-{{ p.id }}">{{ p.descricaoProjeto }}</p>
-                <button class="p-expand-btn" onclick="toggleProjectDesc('{{ p.id }}')">
-                    <span id="label-{{ p.id }}">Ver mais</span>
-                    <svg id="arrow-{{ p.id }}" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                </button>
-                {% if p.linkGitHub %}
-                <a href="{{ p.linkGitHub }}" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; text-decoration: none; margin-top: 6px; transition: color 0.2s;"
-                   onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">
-                    🔗 Ver no GitHub
-                </a>
-                {% endif %}
+                <p class="p-text">{{ p.descricaoProjeto }}</p>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--accent); font-size: 0.78rem; font-weight: 700;">
+                    <span>Clica para ver mais</span>
+                    <span>→</span>
+                </div>
             </div>
             {% if gestao %}
-            <div class="p-card-actions">
+            <div class="p-card-actions" onclick="event.stopPropagation();">
                 <a href="{% url 'editar_projeto' p.id %}" class="p-btn-edit">✎ Editar</a>
                 <a href="{% url 'apagar_projeto' p.id %}" class="p-btn-delete">🗑 Apagar</a>
             </div>
@@ -63,25 +73,169 @@
         {% empty %}
         <div style="grid-column: 1 / -1; text-align: center; padding: 80px 50px;">
             <div style="font-size: 3rem; margin-bottom: 16px;">💼</div>
-            <p style="color: var(--text-muted); font-size: 1rem;">Ainda não tens projetos registados.</p>
+            <p style="color: var(--text-muted);">Ainda não tens projetos registados.</p>
         </div>
         {% endfor %}
     </section>
 </div>
 
+<!-- MODAL -->
+<div id="projeto-modal" onclick="fecharModal(event)" style="
+    display: none;
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(2,6,23,0.85);
+    backdrop-filter: blur(12px);
+    align-items: center; justify-content: center;
+    padding: 24px;
+    animation: fadeInUp 0.3s ease-out;
+">
+    <div id="modal-inner" style="
+        background: #0f172a;
+        border: 1px solid rgba(59,130,246,0.25);
+        border-radius: 28px;
+        max-width: 700px;
+        width: 100%;
+        max-height: 88vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.1);
+        animation: scaleIn 0.3s ease-out;
+    ">
+        <!-- FECHAR -->
+        <button onclick="fecharModalBtn()" style="
+            position: absolute; top: 16px; right: 16px; z-index: 10;
+            background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+            color: var(--text-muted); width: 36px; height: 36px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        " onmouseover="this.style.background='rgba(239,68,68,0.15)'; this.style.color='#ef4444'"
+           onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.color='var(--text-muted)'">✕</button>
+
+        <!-- IMAGEM -->
+        <div id="modal-img-wrap" style="border-radius: 28px 28px 0 0; overflow: hidden; position: relative; height: 240px;">
+            <img id="modal-img" src="" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <div id="modal-no-img" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #0f172a, #1e293b); align-items: center; justify-content: center; font-size: 4rem;">💼</div>
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, #0f172a 0%, transparent 60%);"></div>
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px;">
+                <div id="modal-badges" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                <h2 id="modal-titulo" style="margin: 0; font-size: 1.8rem; font-weight: 900; color: #ffffff; line-height: 1.2; letter-spacing: -0.5px;"></h2>
+            </div>
+        </div>
+
+        <!-- CORPO -->
+        <div style="padding: 28px;">
+
+            <!-- DESCRIÇÃO -->
+            <p id="modal-descricao" style="color: #cbd5e1; line-height: 1.85; font-size: 0.95rem; margin: 0 0 24px 0;"></p>
+
+            <!-- TECNOLOGIAS -->
+            <div id="modal-techs-wrap" style="margin-bottom: 20px;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">🛠️ Tecnologias</p>
+                <div id="modal-techs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            </div>
+
+            <!-- COMPETÊNCIAS -->
+            <div id="modal-comps-wrap" style="margin-bottom: 24px;">
+                <p style="color: var(--text-muted); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">⚡ Competências</p>
+                <div id="modal-comps" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            </div>
+
+            <!-- AÇÕES -->
+            <div id="modal-acoes" style="display: flex; gap: 12px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--border);"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+.p-card { position: relative; }
+.p-img-container { position: relative; }
+.p-card:hover .p-hover-overlay { opacity: 1 !important; background: rgba(2,6,23,0.4) !important; }
+#projeto-modal::-webkit-scrollbar { width: 0; }
+#modal-inner::-webkit-scrollbar { width: 4px; }
+#modal-inner::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 10px; }
+</style>
+
 <script>
-function toggleProjectDesc(id) {
-    const text = document.getElementById('text-' + id);
-    const label = document.getElementById('label-' + id);
-    const arrow = document.getElementById('arrow-' + id);
-    text.classList.toggle('is-expanded');
-    if (text.classList.contains('is-expanded')) {
-        label.innerText = 'Fechar';
-        arrow.style.transform = 'rotate(180deg)';
+function abrirModal(titulo, descricao, ano, foto, github, video, uc, tecnologias, competencias) {
+    const modal = document.getElementById('projeto-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('modal-titulo').textContent = titulo;
+    document.getElementById('modal-descricao').textContent = descricao;
+
+    // Imagem
+    const imgEl = document.getElementById('modal-img');
+    const noImg = document.getElementById('modal-no-img');
+    if (foto) {
+        imgEl.src = foto;
+        imgEl.style.display = 'block';
+        noImg.style.display = 'none';
     } else {
-        label.innerText = 'Ver mais';
-        arrow.style.transform = 'rotate(0deg)';
+        imgEl.style.display = 'none';
+        noImg.style.display = 'flex';
+    }
+
+    // Badges
+    const badges = document.getElementById('modal-badges');
+    badges.innerHTML = '';
+    badges.innerHTML += `<span style="background: linear-gradient(135deg, var(--accent), var(--purple)); color: white; padding: 3px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;">${ano}</span>`;
+    if (uc) badges.innerHTML += `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 3px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;">📚 ${uc}</span>`;
+
+    // Tecnologias
+    const techsWrap = document.getElementById('modal-techs-wrap');
+    const techsEl = document.getElementById('modal-techs');
+    techsEl.innerHTML = '';
+    if (tecnologias && tecnologias.length > 0) {
+        techsWrap.style.display = 'block';
+        tecnologias.forEach(t => {
+            techsEl.innerHTML += `<span style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25); color: var(--accent); padding: 4px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">${t}</span>`;
+        });
+    } else {
+        techsWrap.style.display = 'none';
+    }
+
+    // Competências
+    const compsWrap = document.getElementById('modal-comps-wrap');
+    const compsEl = document.getElementById('modal-comps');
+    compsEl.innerHTML = '';
+    if (competencias && competencias.length > 0) {
+        compsWrap.style.display = 'block';
+        competencias.forEach(c => {
+            compsEl.innerHTML += `<span style="background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); color: var(--purple); padding: 4px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">${c}</span>`;
+        });
+    } else {
+        compsWrap.style.display = 'none';
+    }
+
+    // Ações
+    const acoes = document.getElementById('modal-acoes');
+    acoes.innerHTML = '';
+    if (github) {
+        acoes.innerHTML += `<a href="${github}" target="_blank" class="btn-hero-primary" style="padding: 10px 20px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 7px; text-decoration: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Ver no GitHub
+        </a>`;
+    }
+    if (video) {
+        acoes.innerHTML += `<a href="${video}" target="_blank" style="display: inline-flex; align-items: center; gap: 7px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.82rem;">🎬 Ver Vídeo</a>`;
     }
 }
+
+function fecharModal(e) {
+    if (e.target === document.getElementById('projeto-modal')) {
+        fecharModalBtn();
+    }
+}
+
+function fecharModalBtn() {
+    document.getElementById('projeto-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') fecharModalBtn();
+});
 </script>
 {% endblock %}

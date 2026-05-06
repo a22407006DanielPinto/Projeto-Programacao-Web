@@ -127,13 +127,17 @@ def makingof_view(request):
     dados = MakingOf.objects.select_related('projeto').all()
     return render(request, 'portfoliopessoal/makingof.html', {'logs': dados})
 
+# CRUD: PROJETOS
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def novo_projeto_view(request):
     form = ProjetoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save(); return redirect('gestao_projetos')
-    return render(request, 'portfoliopessoal/projeto_form.html', {'form': form, 'titulo': 'Novo Projeto'})
+        form.save()
+        return redirect('gestao_projetos')
+    return render(request, 'portfoliopessoal/projeto_form.html', {
+        'form': form, 'titulo': 'Novo Projeto', 'cancel_url': 'gestao_projetos'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
@@ -141,24 +145,34 @@ def editar_projeto_view(request, id):
     projeto = get_object_or_404(Projeto, id=id)
     form = ProjetoForm(request.POST or None, request.FILES or None, instance=projeto)
     if form.is_valid():
-        form.save(); return redirect('gestao_projetos')
-    return render(request, 'portfoliopessoal/projeto_form.html', {'form': form, 'titulo': 'Editar Projeto'})
+        form.save()
+        return redirect('gestao_projetos')
+    return render(request, 'portfoliopessoal/projeto_form.html', {
+        'form': form, 'titulo': 'Editar Projeto', 'cancel_url': 'gestao_projetos'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def apagar_projeto_view(request, id):
     projeto = get_object_or_404(Projeto, id=id)
     if request.method == 'POST':
-        projeto.delete(); return redirect('gestao_projetos')
-    return render(request, 'portfoliopessoal/projeto_confirmar_delete.html', {'projeto': projeto})
+        projeto.delete()
+        return redirect('gestao_projetos')
+    return render(request, 'portfoliopessoal/projeto_confirmar_delete.html', {
+        'projeto': projeto, 'cancel_url': 'gestao_projetos'
+    })
 
+# CRUD: TECNOLOGIAS
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def nova_tecnologia_view(request):
     form = TecnologiaForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save(); return redirect('gestao_tecnologias')
-    return render(request, 'portfoliopessoal/tecnologia_form.html', {'form': form, 'titulo': 'Nova Tecnologia'})
+        form.save()
+        return redirect('gestao_tecnologias')
+    return render(request, 'portfoliopessoal/tecnologia_form.html', {
+        'form': form, 'titulo': 'Nova Tecnologia', 'cancel_url': 'gestao_tecnologias'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
@@ -166,24 +180,34 @@ def editar_tecnologia_view(request, nome):
     tecnologia = get_object_or_404(Tecnologia, nomeTecnologia=nome)
     form = TecnologiaForm(request.POST or None, request.FILES or None, instance=tecnologia)
     if form.is_valid():
-        form.save(); return redirect('gestao_tecnologias')
-    return render(request, 'portfoliopessoal/tecnologia_form.html', {'form': form, 'titulo': 'Editar Tecnologia'})
+        form.save()
+        return redirect('gestao_tecnologias')
+    return render(request, 'portfoliopessoal/tecnologia_form.html', {
+        'form': form, 'titulo': 'Editar Tecnologia', 'cancel_url': 'gestao_tecnologias'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def apagar_tecnologia_view(request, nome):
     tecnologia = get_object_or_404(Tecnologia, nomeTecnologia=nome)
     if request.method == 'POST':
-        tecnologia.delete(); return redirect('gestao_tecnologias')
-    return render(request, 'portfoliopessoal/tecnologia_confirmar_delete.html', {'tecnologia': tecnologia})
+        tecnologia.delete()
+        return redirect('gestao_tecnologias')
+    return render(request, 'portfoliopessoal/tecnologia_confirmar_delete.html', {
+        'tecnologia': tecnologia, 'cancel_url': 'gestao_tecnologias'
+    })
 
+# CRUD: COMPETÊNCIAS
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def nova_competencia_view(request):
     form = CompetenciaForm(request.POST or None)
     if form.is_valid():
-        form.save(); return redirect('gestao_competencias')
-    return render(request, 'portfoliopessoal/competencias_form.html', {'form': form, 'titulo': 'Nova Competência'})
+        form.save()
+        return redirect('gestao_competencias')
+    return render(request, 'portfoliopessoal/competencias_form.html', {
+        'form': form, 'titulo': 'Nova Competência', 'cancel_url': 'gestao_competencias'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
@@ -191,24 +215,34 @@ def editar_competencia_view(request, id):
     competencia = get_object_or_404(Competencia, id=id)
     form = CompetenciaForm(request.POST or None, instance=competencia)
     if form.is_valid():
-        form.save(); return redirect('gestao_competencias')
-    return render(request, 'portfoliopessoal/competencias_form.html', {'form': form, 'titulo': 'Editar Competência'})
+        form.save()
+        return redirect('gestao_competencias')
+    return render(request, 'portfoliopessoal/competencias_form.html', {
+        'form': form, 'titulo': 'Editar Competência', 'cancel_url': 'gestao_competencias'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def apagar_competencia_view(request, id):
     competencia = get_object_or_404(Competencia, id=id)
     if request.method == 'POST':
-        competencia.delete(); return redirect('gestao_competencias')
-    return render(request, 'portfoliopessoal/competencias_confirmar_delete.html', {'competencia': competencia})
+        competencia.delete()
+        return redirect('gestao_competencias')
+    return render(request, 'portfoliopessoal/competencias_confirmar_delete.html', {
+        'competencia': competencia, 'cancel_url': 'gestao_competencias'
+    })
 
+# CRUD: FORMAÇÃO
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def nova_formacao_view(request):
     form = FormacaoForm(request.POST or None)
     if form.is_valid():
-        form.save(); return redirect('gestao_formacoes')
-    return render(request, 'portfoliopessoal/formacoes_form.html', {'form': form, 'titulo': 'Nova Formação'})
+        form.save()
+        return redirect('gestao_formacoes')
+    return render(request, 'portfoliopessoal/formacoes_form.html', {
+        'form': form, 'titulo': 'Nova Formação', 'cancel_url': 'gestao_formacoes'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
@@ -216,13 +250,19 @@ def editar_formacao_view(request, id):
     formacao = get_object_or_404(Formacao, id=id)
     form = FormacaoForm(request.POST or None, instance=formacao)
     if form.is_valid():
-        form.save(); return redirect('gestao_formacoes')
-    return render(request, 'portfoliopessoal/formacoes_form.html', {'form': form, 'titulo': 'Editar Formação'})
+        form.save()
+        return redirect('gestao_formacoes')
+    return render(request, 'portfoliopessoal/formacoes_form.html', {
+        'form': form, 'titulo': 'Editar Formação', 'cancel_url': 'gestao_formacoes'
+    })
 
 @login_required(login_url='/accounts/login/')
 @gestor_required
 def apagar_formacao_view(request, id):
     formacao = get_object_or_404(Formacao, id=id)
     if request.method == 'POST':
-        formacao.delete(); return redirect('gestao_formacoes')
-    return render(request, 'portfoliopessoal/formacoes_confirmar_delete.html', {'formacao': formacao})
+        formacao.delete()
+        return redirect('gestao_formacoes')
+    return render(request, 'portfoliopessoal/formacoes_confirmar_delete.html', {
+        'formacao': formacao, 'cancel_url': 'gestao_formacoes'
+    })

@@ -1,35 +1,28 @@
 {% extends "portfoliopessoal/base.html" %}
 {% block content %}
 <div style="padding-top: 40px; animation: fadeInUp 0.8s ease-out;">
-    <a href="{% url 'formacoes' %}" class="btn-back">← Voltar às Formações</a>
-
+    <a href="{% url cancel_url %}" class="btn-back">← Voltar</a>
     <div class="glass-form-container">
         <div class="form-header">
             <h2 class="hero-subtitle" style="margin-top: 0; font-size: 2.5rem;">{{ titulo }}<span>.</span></h2>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Regista uma formação ou certificação no teu percurso.</p>
         </div>
-
         <form method="POST" class="styled-form">
             {% csrf_token %}
             <div class="form-sections">
                 {% for field in form %}
                 <div class="form-field-group">
                     <label>{{ field.label }}</label>
-                    <div class="field-container">
-                        {{ field }}
-                    </div>
+                    <div class="field-container">{{ field }}</div>
                     {% if field.errors %}
                     <span class="error-msg" style="color: #ef4444; font-size: 0.8rem;">{{ field.errors.0 }}</span>
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
-
             <div class="form-footer">
-                <a href="{% url 'formacoes' %}" class="btn-cancel">Cancelar</a>
-                <button type="submit" class="btn-save-main">
-                    <span>💾</span> Guardar Formação
-                </button>
+                <a href="{% url cancel_url %}" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-save-main"><span>💾</span> Guardar Formação</button>
             </div>
         </form>
     </div>
