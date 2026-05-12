@@ -18,7 +18,7 @@ class Competencia(models.Model):
 
 class Docente(models.Model):
     idDocente = models.CharField(max_length=50, primary_key=True, verbose_name="Docente ID")
-    nomeDocente = models.CharField(max_length=150, verbose_name="Nome do Docente")
+    nomeDocente = models.TextField(verbose_name="Nome do Docente")
     linkPerfilUniversidade = models.URLField(blank=True, null=True, verbose_name="Link do Perfil Universitário")
     email = models.EmailField(blank=True, null=True, verbose_name="E-mail")
     ucs_lecionadas = models.ManyToManyField('UnidadeCurricular', related_name='equipa_docente', blank=True, verbose_name="UCs Lecionadas")
